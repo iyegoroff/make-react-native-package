@@ -1,0 +1,5 @@
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="#~GITHUB_USERNAME~##~COMPONENT_NAME_PASCAL_CASE~#">
+
+</manifest>

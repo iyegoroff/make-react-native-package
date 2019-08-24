@@ -1,0 +1,32 @@
+{
+  "name": "#~EXAMPLE_NAME~#",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "preinstall": "cd .. && npm i && npm run build",
+    "postinstall": "npm run build",
+    "build": "rm -rf build && ../node_modules/.bin/tsc -p ./src",
+    "lint": "../node_modules/.bin/tslint -p ./src",
+    "watch": "npm run build -- --watch",
+    "reset:packager": "watchman watch-del-all && react-native start --reset-cache",
+    "run:android": "react-native run-android --no-jetifier",
+    "clean:android": "cd android && ./gradlew clean",
+    "install:pods": "cd ios && pod install",
+    "generate:android:signing-key": "keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000 && mv example.keystore android/app",
+    "generate:android:apk": "npm run generate:android:bundle && cd android && ./gradlew assembleRelease",
+    "generate:android:bundle": "npm run build && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle",
+    "build:docker:image": "docker build -t #~EXAMPLE_NAME~#.image -f ./Dockerfile ../",
+    "extract:docker:apk": "docker create -ti --name #~EXAMPLE_NAME~#-container #~EXAMPLE_NAME~#.image /bin/bash && docker cp #~EXAMPLE_NAME~#-container:/package/example/android/app/build/outputs/apk/release/app-release.apk #~EXAMPLE_NAME~#.apk && docker rm -fv #~EXAMPLE_NAME~#-container",
+    "build:release:docker": "npm run build:docker:image && npm run extract:docker:apk"
+  },
+  "dependencies": {
+    "react": "16.8.6",
+    "react-native": "0.60.5",
+    "#~PROJECT_NAME~#": "file:.."
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "metro-react-native-babel-preset": "^0.56.0"
+  }
+}

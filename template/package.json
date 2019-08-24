@@ -1,0 +1,60 @@
+{
+  "description": "#~DESCRIPTION~#",
+  "keywords": [
+    "react-native"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "name": "#~PROJECT_NAME~#",
+  "author": "#~NPM_USERNAME~# #~EMAIL~#",
+  "bugs": {
+    "url": "https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#/issues"
+  },
+  "homepage": "https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~##readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#.git"
+  },
+  "version": "0.0.0",
+  "peerDependencies": {
+    "@babel/runtime": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react-native": "^0.60.3",
+    "tslint": "^5.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.3"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p ./src",
+    "watch": "tsc -p ./src -w",
+    "lint": "npm run lint:ts && npm run lint:kotlin && npm run lint:swift",
+    "lint:ts": "tslint --fix -p ./src && tslint --fix -p ./example/src",
+    "lint:kotlin": "cd example/android && ./gradlew ktlintMainSourceSetFormat",
+    "lint:swift": "cd ios && ../example/ios/Pods/SwiftLint/swiftlint autocorrect && ../example/ios/Pods/SwiftLint/swiftlint",
+    "ci:build": "cd example && npm i",
+    "ci:lint": "npm run ci:lint:ts && npm run ci:lint:kotlin && npm run ci:lint:swift",
+    "ci:lint:ts": "tslint -p ./src && tslint -p ./example/src",
+    "ci:lint:kotlin": "cd example/android && ./gradlew ktlintMainSourceSetCheck",
+    "ci:lint:swift": "cd ios && ../example/ios/Pods/SwiftLint/swiftlint",
+    "ci:compile:android": "cd example/android && ./gradlew compileDebugSources",
+    "ci:compile:ios": "cd example/ios && export RCT_NO_LAUNCH_PACKAGER=\"true\" && export RCT_NO_BUNDLE=\"true\" && xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=\"NO\" CODE_SIGN_ENTITLEMENTS=\"\" CODE_SIGNING_ALLOWED=\"NO\" -workspace #~EXAMPLE_NAME~#.xcworkspace -configuration Debug -scheme #~EXAMPLE_NAME~# test",
+    "preversion": "npm run lint && npm run build",
+    "postversion": "git push && git push --tags"
+  },
+  "files": [
+    "android",
+    "ios",
+    "src",
+    "dist",
+    "example",
+    "tslint.json",
+    "*.md",
+    "*.podspec",
+    "LICENSE"
+  ]
+}

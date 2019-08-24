@@ -1,0 +1,17 @@
+{
+  "extends": ["tslint-config-standard", "tslint-react"],
+  "rules": {
+    "jsx-no-multiline-js": false,
+    "jsx-space-before-trailing-slash": true,
+    "no-parameter-reassignment": true,
+    "no-shadowed-variable": true,
+    "max-line-length": [true, 100],
+    "max-file-line-count": [true, 300],
+    "ter-indent": [true, 2],
+    "space-before-function-paren": [true, {
+      "anonymous": "always",
+      "named": "never",
+      "asyncArrow": "always"
+    }]
+  }
+}

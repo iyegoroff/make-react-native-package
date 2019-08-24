@@ -1,0 +1,1 @@
+export { #~COMPONENT_NAME_PASCAL_CASE~# } from './#~COMPONENT_NAME_KEBAB_CASE~#'

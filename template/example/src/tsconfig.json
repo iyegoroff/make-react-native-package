@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "strict": true,
+    "outDir": "../build",
+    "jsx": "react-native",
+    "lib": ["es2016"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "types": []
+  }
+}
