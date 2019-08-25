@@ -1,3 +1,5 @@
+<!-- Bootstrapped with make-react-native-package v{{mrnpVersion}} -->
+
 # {{packageName}}
 [![npm version](https://badge.fury.io/js/{{packageName}}.svg)](https://badge.fury.io/js/{{packageName}})
 [![CircleCI](https://circleci.com/gh/{{githubUsername}}/{{packageName}}.svg?style=svg)](https://circleci.com/gh/{{githubUsername}}/{{packageName}})
@@ -63,7 +65,23 @@
 
 ```jsx
 import * as React from 'react'
-import {  } from '{{packageName}}'
+import { View } from 'react-native'
+import {
+{{#each modules}}
+  {{pascalCase this}},
+{{/each}}
+{{#each components}}
+  {{pascalCase this}},
+{{/each}}
+} from '{{packageName}}'
+
+const App = () => (
+  <View style=\{{ width: '100%', height: '100%' }}>
+  {{#each components}}
+    <{{pascalCase this}} color={'red'} />
+  {{/each}}
+  </View>
+)
 ```
 
 ## Reference

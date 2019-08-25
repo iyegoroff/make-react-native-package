@@ -1,6 +1,6 @@
 {{#each modules}}
-export { {{this}} } from './{{this}}'
+export { {{pascalCase this}} } from './{{pascalCase this}}'
 {{/each}}
 {{#each components}}
-export { {{this}} } from './{{this}}'
+export { {{pascalCase this}} } from './{{pascalCase this}}'
 {{/each}}

@@ -5,6 +5,6 @@ export type NativeProps = {
   readonly color: string
 }
 
-export const {{objcPrefix}}{{lazyPascalCaseComponentName}}: React.ComponentClass<NativeProps> = requireNativeComponent(
+export const NativeComponent: React.ComponentClass<NativeProps> = requireNativeComponent(
   '{{objcPrefix}}{{lazyPascalCaseComponentName}}'
 )

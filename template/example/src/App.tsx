@@ -5,7 +5,7 @@ import {
     {{pascalCase this}},
   {{/each}}
   {{#each components}}
-    {{pascalCase this}}{{#unless @last}},{{/unless}}
+    {{pascalCase this}},
   {{/each}}
 } from '{{packageName}}'
 

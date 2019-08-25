@@ -8,6 +8,7 @@ const through = require('through2')
 const Confirm = require('prompt-confirm')
 const Handlebars = require('handlebars')
 const rimraf = require('rimraf')
+const { version } = require('./package.json')
 
 const del = promisify(rimraf)
 
@@ -47,7 +48,7 @@ const sections = [
       {
         name: 'objcPrefix',
         alias: 'o',
-        description: 'ObjC file prefix.'
+        description: 'Objective-C file prefix.'
       },
       {
         name: 'components',
@@ -75,6 +76,12 @@ const sections = [
         name: 'email',
         alias: 'e',
         description: 'Your npm email.'
+      },
+      {
+        name: 'skipConfirmation',
+        alias: 's',
+        type: Boolean,
+        description: 'Create package without confirm prompt.'
       },
       {
         name: 'help',
@@ -111,6 +118,7 @@ const optionDefinitions = [
   { name: 'description', alias: 'd', type: String },
   { name: 'npmUsername', alias: 'n', type: String },
   { name: 'email', alias: 'e', type: String },
+  { name: 'skipConfirmation', alias: 's', type: Boolean },
   { name: 'help', alias: 'h', type: Boolean }
 ]
 
@@ -124,6 +132,7 @@ const {
   description,
   npmUsername,
   email,
+  skipConfirmation,
   help
 } = commandLineArgs(optionDefinitions)
 
@@ -149,8 +158,8 @@ const packageMap = {
   objcPrefix: objcPrefix
     ? objcPrefix.toUpperCase()
     : pascalCase(packageName).replace(/[^A-Z]/g, ''),
-  description: description || '???',
-  email: email ? `<${email}>` : '',
+  description: description || 'Mysterious react-native package',
+  email: email ? ` <${email}>` : '',
   npmUsername: npmUsername || githubUsername,
   components: components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]),
   modules: modules || []
@@ -159,6 +168,7 @@ const packageMap = {
 const componentMaps = packageMap.components.map((componentName) => ({ componentName }))
 const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
 const miscMap = {
+  mrnpVersion: version,
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
   lazyParamCaseComponentName: '{{paramCase componentName}}',
@@ -193,37 +203,50 @@ const copyOptions = (map) => ({
 const packagePath = `${process.cwd()}/${packageMap.packageName}`
 const androidSourcesPath = `${packagePath}/android/src/main/kotlin/` +
   `${packageCase(packageMap.githubUsername)}/${packageCase(packageMap.packageName)}`
-const androidComponentTemplatePath = `${androidSourcesPath}/${miscMap.lazyPackageCaseComponentName}`
+const iosSourcesPath = `${packagePath}/ios`
 const typescriptSourcesPath = `${packagePath}/src`
-const typescriptComponentTemplatePath =
-  `${typescriptSourcesPath}/${miscMap.lazyPascalCaseComponentName}`
 
-console.log('\nPackage generator configuration:\n')
+console.log('\nConfiguration:\n')
 console.log(packageMap)
 console.log()
 
-const prompt = new Confirm('Is it OK?')
-prompt.ask(async (answer) => {
-  if (answer) {
-    await copy(`${__dirname}/template`, packagePath, copyOptions({ ...packageMap, ...miscMap }))
+const makePackage = async () => {
+  await copy(`${__dirname}/template`, packagePath, copyOptions({ ...packageMap, ...miscMap }))
 
-    await Promise.all(componentMaps.map(async (map) => {
-      const options = copyOptions(map)
+  await Promise.all(componentMaps.map(async (map) => {
+    const options = copyOptions(map)
 
-      await copy(
-        androidComponentTemplatePath,
-        `${androidSourcesPath}/${packageCase(map.componentName)}`,
-        options
-      )
+    await copy(
+      `${androidSourcesPath}/component-template`,
+      `${androidSourcesPath}/${packageCase(map.componentName)}`,
+      options
+    )
 
-      await copy(
-        typescriptComponentTemplatePath,
-        `${typescriptSourcesPath}/${pascalCase(map.componentName)}`,
-        options
-      )
-    }))
+    await copy(
+      `${iosSourcesPath}/component-template`,
+      `${iosSourcesPath}/${pascalCase(map.componentName)}`,
+      options
+    )
 
-    await del(androidComponentTemplatePath)
-    await del(typescriptComponentTemplatePath)
-  }
-})
+    await copy(
+      `${typescriptSourcesPath}/component-template`,
+      `${typescriptSourcesPath}/${pascalCase(map.componentName)}`,
+      options
+    )
+  }))
+
+  await del(`${packagePath}/**/component-template`)
+  await del(`${packagePath}/**/module-template`)
+}
+
+if (skipConfirmation) {
+  makePackage()
+
+} else {
+  const prompt = new Confirm('Is this OK?')
+  prompt.ask(async (answer) => {
+    if (answer) {
+      await makePackage()
+    }
+  })
+}
