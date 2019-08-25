@@ -1,34 +1,14 @@
 {
+  "name": "{{packageName}}",
+  "version": "0.0.1",
   "description": "{{description}}",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "react-native"
   ],
-  "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "name": "{{packageName}}",
   "author": "{{npmUsername}}{{email}}",
-  "bugs": {
-    "url": "https://github.com/{{githubUsername}}/{{packageName}}/issues"
-  },
-  "homepage": "https://github.com/{{githubUsername}}/{{packageName}}#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/{{githubUsername}}/{{packageName}}.git"
-  },
-  "version": "0.0.0",
-  "peerDependencies": {
-    "@babel/runtime": "*",
-    "react": "*",
-    "react-native": "*"
-  },
-  "devDependencies": {
-    "@types/react-native": "^0.60.3",
-    "tslint": "^5.18.0",
-    "tslint-config-standard": "^8.0.1",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.5.3"
-  },
+  "license": "MIT",
   "scripts": {
     "build": "rm -rf dist && tsc -p ./src",
     "watch": "tsc -p ./src -w",
@@ -45,6 +25,26 @@
     "ci:compile:ios": "cd example/ios && export RCT_NO_LAUNCH_PACKAGER=\"true\" && export RCT_NO_BUNDLE=\"true\" && xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=\"NO\" CODE_SIGN_ENTITLEMENTS=\"\" CODE_SIGNING_ALLOWED=\"NO\" -workspace {{appName}}.xcworkspace -configuration Debug -scheme {{appName}} test",
     "preversion": "npm run lint && npm run build",
     "postversion": "git push && git push --tags"
+  },
+  "bugs": {
+    "url": "https://github.com/{{githubUsername}}/{{packageName}}/issues"
+  },
+  "homepage": "https://github.com/{{githubUsername}}/{{packageName}}#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/{{githubUsername}}/{{packageName}}.git"
+  },
+  "peerDependencies": {
+    "@babel/runtime": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react-native": "^0.60.3",
+    "tslint": "^5.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.3"
   },
   "files": [
     "android",

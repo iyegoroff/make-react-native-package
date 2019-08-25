@@ -1,7 +1,7 @@
 import React from 'react'
-import { requireNativeComponent } from 'react-native'
+import { requireNativeComponent, ViewProps } from 'react-native'
 
-export type NativeProps = {
+export type NativeProps = ViewProps & {
   readonly color: string
 }
 

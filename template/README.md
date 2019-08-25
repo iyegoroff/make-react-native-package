@@ -71,14 +71,17 @@ import {
   {{pascalCase this}},
 {{/each}}
 {{#each components}}
-  {{pascalCase this}},
+  {{pascalCase this}}{{#unless @last}},{{/unless}}
 {{/each}}
 } from '{{packageName}}'
 
 const App = () => (
   <View style=\{{ width: '100%', height: '100%' }}>
   {{#each components}}
-    <{{pascalCase this}} color={'red'} />
+    <{{pascalCase this}}
+      style=\{{ width: 100, height: 100, margin: 5 }}
+      color={'red'}
+    />
   {{/each}}
   </View>
 )
