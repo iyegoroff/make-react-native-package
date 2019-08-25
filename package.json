@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,8 +14,10 @@
     "change-case": "^3.1.0",
     "command-line-args": "^5.1.1",
     "command-line-usage": "^6.0.2",
+    "handlebars": "^4.1.2",
     "prompt-confirm": "^2.0.4",
     "recursive-copy": "^2.0.10",
+    "rimraf": "^3.0.0",
     "through2": "^3.0.1"
   }
 }

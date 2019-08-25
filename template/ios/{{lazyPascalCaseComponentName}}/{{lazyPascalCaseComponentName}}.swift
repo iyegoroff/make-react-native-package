@@ -1,6 +1,6 @@
 import Foundation
 
-class #~COMPONENT_NAME_PASCAL_CASE~#: UIView {
+class {{lazyPascalCaseComponentName}}: UIView {
   public init() {
     super.init()
   }

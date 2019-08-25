@@ -1,4 +1,4 @@
-package com.#~EXAMPLE_NAME~#;
+package com.{{packageCase appName}};
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "#~EXAMPLE_NAME~#";
+        return "{{appName}}";
     }
 }

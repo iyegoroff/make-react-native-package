@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target '#~EXAMPLE_NAME~#' do
-  # Pods for #~EXAMPLE_NAME~#
+target '{{appName}}' do
+  # Pods for {{appName}}
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
   pod 'React-DevSupport', :path => '../node_modules/react-native/React'
@@ -27,7 +27,7 @@ target '#~EXAMPLE_NAME~#' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod '#~PROJECT_NAME~#', :path => '../../'
+  pod '{{packageName}}', :path => '../../'
 
   pod 'SwiftLint'
 

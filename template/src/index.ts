@@ -1,1 +1,6 @@
-export { #~COMPONENT_NAME_PASCAL_CASE~# } from './#~COMPONENT_NAME_KEBAB_CASE~#'
+{{#each modules}}
+export { {{this}} } from './{{this}}'
+{{/each}}
+{{#each components}}
+export { {{this}} } from './{{this}}'
+{{/each}}

@@ -1,10 +1,19 @@
 import React from 'react'
 import { View } from 'react-native'
-import { #~COMPONENT_NAME_PASCAL_CASE~# } from '#~PROJECT_NAME~#'
+import {
+  {{#each modules}}
+    {{pascalCase this}},
+  {{/each}}
+  {{#each components}}
+    {{pascalCase this}}{{#unless @last}},{{/unless}}
+  {{/each}}
+} from '{{packageName}}'
 
 const App = () => (
-  <View style={{ width: '100%', height: '100%' }}>
-    <#~COMPONENT_NAME_PASCAL_CASE~# color={'red'} />
+  <View style=\{{ width: '100%', height: '100%' }}>
+  {{#each components}}
+    <{{pascalCase this}} color={'red'} />
+  {{/each}}
   </View>
 )
 

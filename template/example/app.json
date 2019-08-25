@@ -1,4 +1,4 @@
 {
-  "name": "#~EXAMPLE_NAME~#",
-  "displayName": "#~EXAMPLE_NAME~#"
+  "name": "{{appName}}",
+  "displayName": "{{appName}}"
 }

@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license          = package['license']
   s.author           = package['author']
   s.platform         = :ios, '9.0'
-  s.source           = { :git => 'https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#.git', :tag => 'v#{s.version}' }
+  s.source           = { :git => 'https://github.com/{{githubUsername}}/{{packageName}}.git', :tag => 'v#{s.version}' }
   s.source_files     = 'ios/**/*.{h,m,swift}'
   s.requires_arc     = true
   s.swift_version    = '5.0'

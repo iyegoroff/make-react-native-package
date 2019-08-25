@@ -11,7 +11,7 @@ const extraNodeModules = {
   'react': path.resolve(__dirname, 'node_modules/react'),
   'react-native': path.resolve(__dirname, 'node_modules/react-native'),
   '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
-  '#~PROJECT_NAME~#': path.resolve(__dirname, '../')
+  '{{packageName}}': path.resolve(__dirname, '../')
 }
 const watchFolders = [
   path.resolve(__dirname, '../')

@@ -1,6 +1,6 @@
 #import <React/RCTViewManager.h>
 
-@interface RCT_EXTERN_MODULE(#~OBJC_PREFIX~##~COMPONENT_NAME_PASCAL_CASE~#Manager, RCTViewManager)
+@interface RCT_EXTERN_MODULE({{objcPrefix}}{{lazyPascalCaseComponentName}}Manager, RCTViewManager)
 
 + (BOOL)requiresMainQueueSetup
 {

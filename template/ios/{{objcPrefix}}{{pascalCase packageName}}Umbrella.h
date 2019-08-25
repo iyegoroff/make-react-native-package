@@ -1,5 +1,5 @@
-#ifndef #~OBJC_PREFIX~##~COMPONENT_NAME_PASCAL_CASE~#Umbrella_h
-#define #~OBJC_PREFIX~##~COMPONENT_NAME_PASCAL_CASE~#Umbrella_h
+#ifndef {{objcPrefix}}{{pascalCase packageName}}Umbrella_h
+#define {{objcPrefix}}{{pascalCase packageName}}Umbrella_h
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -8,4 +8,4 @@
 #import <React/RCTViewManager.h>
 #import <React/RCTDevLoadingView.h>
 
-#endif /* #~OBJC_PREFIX~##~COMPONENT_NAME_PASCAL_CASE~#Umbrella_h */
+#endif /* {{objcPrefix}}{{pascalCase packageName}}Umbrella_h */

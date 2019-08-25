@@ -1,13 +1,13 @@
-# #~PROJECT_NAME~#
-[![npm version](https://badge.fury.io/js/#~PROJECT_NAME~#.svg)](https://badge.fury.io/js/#~PROJECT_NAME~#)
-[![CircleCI](https://circleci.com/gh/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#.svg?style=svg)](https://circleci.com/gh/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#)
+# {{packageName}}
+[![npm version](https://badge.fury.io/js/{{packageName}}.svg)](https://badge.fury.io/js/{{packageName}})
+[![CircleCI](https://circleci.com/gh/{{githubUsername}}/{{packageName}}.svg?style=svg)](https://circleci.com/gh/{{githubUsername}}/{{packageName}})
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/standard/standard)
-[![Dependency Status](https://david-dm.org/#~NPM_USERNAME~#/#~PROJECT_NAME~#.svg)](https://david-dm.org/#~NPM_USERNAME~#/#~PROJECT_NAME~#)
-[![devDependencies Status](https://david-dm.org/#~NPM_USERNAME~#/#~PROJECT_NAME~#/dev-status.svg)](https://david-dm.org/#~NPM_USERNAME~#/#~PROJECT_NAME~#?type=dev)
+[![Dependency Status](https://david-dm.org/{{npmUsername}}/{{packageName}}.svg)](https://david-dm.org/{{npmUsername}}/{{packageName}})
+[![devDependencies Status](https://david-dm.org/{{npmUsername}}/{{packageName}}/dev-status.svg)](https://david-dm.org/{{npmUsername}}/{{packageName}}?type=dev)
 [![typings included](https://img.shields.io/badge/typings-included-brightgreen.svg?t=1495378566925)](package.json)
-[![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/#~PROJECT_NAME~#)
+[![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/{{packageName}})
 
-#~DESCRIPTION~#
+{{description}}
 
 ## Status
 
@@ -43,7 +43,7 @@
 
 ### 1. Install latest version from npm
 
-`$ npm i #~PROJECT_NAME~# -S`
+`$ npm i {{packageName}} -S`
 
 ### 2. Install pods
 
@@ -63,13 +63,7 @@
 
 ```jsx
 import * as React from 'react'
-import { #~COMPONENT_NAME_PASCAL_CASE~# } from '#~PROJECT_NAME~#'
-
-export const Component = () => (
-  <#~COMPONENT_NAME_PASCAL_CASE~#
-    color={'red'}
-  />
-)
+import {  } from '{{packageName}}'
 ```
 
 ## Reference

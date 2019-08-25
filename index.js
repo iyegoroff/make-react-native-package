@@ -1,21 +1,31 @@
+const path = require('path')
+const { promisify } = require('util')
 const commandLineArgs = require('command-line-args')
 const commandLineUsage = require('command-line-usage')
-const { pascalCase, paramCase } = require('change-case')
+const { pascalCase, paramCase, camelCase, lowerCase } = require('change-case')
 const copy = require('recursive-copy')
 const through = require('through2')
 const Confirm = require('prompt-confirm')
+const Handlebars = require('handlebars')
+const rimraf = require('rimraf')
+
+const del = promisify(rimraf)
+
+const packageCase = (input) => lowerCase(camelCase(input))
+
+Handlebars.registerHelper({ pascalCase, paramCase, camelCase, packageCase })
 
 const sections = [
   {
     header: 'Usage',
-    content: '$ make-react-native-package <{bold --projectName} {underline name}> ' +
+    content: '$ make-react-native-package <{bold --packageName} {underline name}> ' +
       '<{bold --githubUsername} {underline user}> ...'
   },
   {
     header: 'Required options',
     optionList: [
       {
-        name: 'projectName',
+        name: 'packageName',
         alias: 'p',
         description: 'The name of project folder, github repo and npm package.'
       },
@@ -30,8 +40,8 @@ const sections = [
     header: 'Options',
     optionList: [
       {
-        name: 'exampleName',
-        alias: 'e',
+        name: 'appName',
+        alias: 'a',
         description: 'Example app name.'
       },
       {
@@ -40,9 +50,16 @@ const sections = [
         description: 'ObjC file prefix.'
       },
       {
-        name: 'componentName',
+        name: 'components',
         alias: 'c',
-        description: 'Exported component name.'
+        multiple: true,
+        description: 'List of space-separated native component names.'
+      },
+      {
+        name: 'modules',
+        alias: 'm',
+        multiple: true,
+        description: 'List of space-separated native module names.'
       },
       {
         name: 'description',
@@ -56,7 +73,7 @@ const sections = [
       },
       {
         name: 'email',
-        alias: 'm',
+        alias: 'e',
         description: 'Your npm email.'
       },
       {
@@ -71,9 +88,9 @@ const sections = [
     header: 'Example',
     content: [
       '$ make-react-native-package ' +
-      '{bold --projectName} {underline react-native-cool-component}',
+      '{bold --packageName} {underline react-native-cool-component}',
       '{hidden   }{bold --githubUsername} {underline octocat} ' +
-      '{bold --exampleName} {underline CoolExample} ' +
+      '{bold --appName} {underline CoolExample} ' +
       '{bold --objcPrefix} {underline RNCC}',
       '{hidden   }{bold --description} {underline "Cool description"} ' +
       '{bold --npmUsername} {underline wombat} ' +
@@ -85,23 +102,25 @@ const sections = [
 const usage = commandLineUsage(sections)
 
 const optionDefinitions = [
-  { name: 'projectName', alias: 'p', type: String },
+  { name: 'packageName', alias: 'p', type: String },
   { name: 'githubUsername', alias: 'g', type: String },
-  { name: 'exampleName', alias: 'e', type: String },
+  { name: 'appName', alias: 'a', type: String },
   { name: 'objcPrefix', alias: 'o', type: String },
-  { name: 'componentName', alias: 'c', type: String },
+  { name: 'components', alias: 'c', type: String, multiple: true },
+  { name: 'modules', alias: 'm', type: String, multiple: true },
   { name: 'description', alias: 'd', type: String },
   { name: 'npmUsername', alias: 'n', type: String },
-  { name: 'email', alias: 'm', type: String },
+  { name: 'email', alias: 'e', type: String },
   { name: 'help', alias: 'h', type: Boolean }
 ]
 
 const {
-  projectName,
+  packageName,
   githubUsername,
-  exampleName,
+  appName,
   objcPrefix,
-  componentName,
+  components,
+  modules,
   description,
   npmUsername,
   email,
@@ -113,8 +132,8 @@ if (help) {
   process.exit()
 }
 
-if (projectName === undefined) {
-  console.log('\nERROR: Skipped required `projectName` option!\n', usage)
+if (packageName === undefined) {
+  console.log('\nERROR: Skipped required `packageName` option!\n', usage)
   process.exit(1)
 }
 
@@ -123,47 +142,88 @@ if (githubUsername === undefined) {
   process.exit(1)
 }
 
-const component = pascalCase(componentName || projectName).replace('ReactNative', '')
-
-const map = {
-  PROJECT_NAME: projectName,
-  GITHUB_USERNAME: githubUsername,
-  EXAMPLE_NAME: pascalCase(exampleName || `${projectName}Example`),
-  OBJC_PREFIX: objcPrefix
+const packageMap = {
+  packageName,
+  githubUsername,
+  appName: pascalCase(appName || `${packageName}Example`),
+  objcPrefix: objcPrefix
     ? objcPrefix.toUpperCase()
-    : pascalCase(projectName).replace(/[^A-Z]/g, ''),
-  COMPONENT_NAME_PASCAL_CASE: component,
-  COMPONENT_NAME_KEBAB_CASE: paramCase(component),
-  CURRENT_YEAR: `${new Date().getFullYear()}`,
-  DESCRIPTION: description || '???',
-  EMAIL: email ? `<${email}>` : '',
-  NPM_USERNAME: npmUsername || githubUsername
+    : pascalCase(packageName).replace(/[^A-Z]/g, ''),
+  description: description || '???',
+  email: email ? `<${email}>` : '',
+  npmUsername: npmUsername || githubUsername,
+  components: components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]),
+  modules: modules || []
 }
 
-const transform = (data) => (
-  Object.keys(map).reduce(
-    (path, key) => path.replace(new RegExp(`#~${key}~#`, 'g'), map[key]),
-    data
-  )
+const componentMaps = packageMap.components.map((componentName) => ({ componentName }))
+const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
+const miscMap = {
+  currentYear: `${new Date().getFullYear()}`,
+  lazyPascalCaseComponentName: '{{pascalCase componentName}}',
+  lazyParamCaseComponentName: '{{paramCase componentName}}',
+  lazyPackageCaseComponentName: '{{packageCase componentName}}',
+  lazyPascalCaseModuleName: '{{pascalCase moduleName}}',
+  lazyParamCaseModuleName: '{{paramCase moduleName}}',
+  lazyPackageCaseModuleName: '{{packageCase moduleName}}'
+}
+
+const transform = (map) => (data) => (
+  Handlebars.compile(data)(map)
 )
 
-const copyOptions = {
+const copyOptions = (map) => ({
   overwrite: true,
   dot: true,
-  rename: transform,
-  transform: function () {
-		return through(function (chunk, enc, done)  {
-			done(null, transform(chunk.toString()))
-		});
+  rename: transform(map),
+
+  transform: function (src) {
+    const skipTransform = ['.png', '.jar', '.keystore'].includes(path.extname(src))
+
+    return !skipTransform && through(function (chunk, enc, done)  {
+      try {
+        done(null, transform(map)(chunk.toString()))
+      } catch (e) {
+        console.log(e, src)
+      }
+		})
 	}
-}
+})
+
+const packagePath = `${process.cwd()}/${packageMap.packageName}`
+const androidSourcesPath = `${packagePath}/android/src/main/kotlin/` +
+  `${packageCase(packageMap.githubUsername)}/${packageCase(packageMap.packageName)}`
+const androidComponentTemplatePath = `${androidSourcesPath}/${miscMap.lazyPackageCaseComponentName}`
+const typescriptSourcesPath = `${packagePath}/src`
+const typescriptComponentTemplatePath =
+  `${typescriptSourcesPath}/${miscMap.lazyPascalCaseComponentName}`
 
 console.log('\nPackage generator configuration:\n')
-console.log(map)
+console.log(packageMap)
 console.log()
+
 const prompt = new Confirm('Is it OK?')
-prompt.ask((answer) => {
+prompt.ask(async (answer) => {
   if (answer) {
-    copy(`${__dirname}/template`, `${process.cwd()}/${projectName}`, copyOptions)
+    await copy(`${__dirname}/template`, packagePath, copyOptions({ ...packageMap, ...miscMap }))
+
+    await Promise.all(componentMaps.map(async (map) => {
+      const options = copyOptions(map)
+
+      await copy(
+        androidComponentTemplatePath,
+        `${androidSourcesPath}/${packageCase(map.componentName)}`,
+        options
+      )
+
+      await copy(
+        typescriptComponentTemplatePath,
+        `${typescriptSourcesPath}/${pascalCase(map.componentName)}`,
+        options
+      )
+    }))
+
+    await del(androidComponentTemplatePath)
+    await del(typescriptComponentTemplatePath)
   }
 })

@@ -1,20 +1,20 @@
 {
-  "description": "#~DESCRIPTION~#",
+  "description": "{{description}}",
   "keywords": [
     "react-native"
   ],
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "name": "#~PROJECT_NAME~#",
-  "author": "#~NPM_USERNAME~# #~EMAIL~#",
+  "name": "{{packageName}}",
+  "author": "{{npmUsername}} {{email}}",
   "bugs": {
-    "url": "https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#/issues"
+    "url": "https://github.com/{{githubUsername}}/{{packageName}}/issues"
   },
-  "homepage": "https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~##readme",
+  "homepage": "https://github.com/{{githubUsername}}/{{packageName}}#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/#~GITHUB_USERNAME~#/#~PROJECT_NAME~#.git"
+    "url": "git+https://github.com/{{githubUsername}}/{{packageName}}.git"
   },
   "version": "0.0.0",
   "peerDependencies": {
@@ -42,7 +42,7 @@
     "ci:lint:kotlin": "cd example/android && ./gradlew ktlintMainSourceSetCheck",
     "ci:lint:swift": "cd ios && ../example/ios/Pods/SwiftLint/swiftlint",
     "ci:compile:android": "cd example/android && ./gradlew compileDebugSources",
-    "ci:compile:ios": "cd example/ios && export RCT_NO_LAUNCH_PACKAGER=\"true\" && export RCT_NO_BUNDLE=\"true\" && xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=\"NO\" CODE_SIGN_ENTITLEMENTS=\"\" CODE_SIGNING_ALLOWED=\"NO\" -workspace #~EXAMPLE_NAME~#.xcworkspace -configuration Debug -scheme #~EXAMPLE_NAME~# test",
+    "ci:compile:ios": "cd example/ios && export RCT_NO_LAUNCH_PACKAGER=\"true\" && export RCT_NO_BUNDLE=\"true\" && xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=\"NO\" CODE_SIGN_ENTITLEMENTS=\"\" CODE_SIGNING_ALLOWED=\"NO\" -workspace {{appName}}.xcworkspace -configuration Debug -scheme {{appName}} test",
     "preversion": "npm run lint && npm run build",
     "postversion": "git push && git push --tags"
   },

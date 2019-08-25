@@ -1,5 +1,5 @@
 {
-  "name": "#~EXAMPLE_NAME~#",
+  "name": "{{appName}}",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,14 +15,14 @@
     "generate:android:signing-key": "keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000 && mv example.keystore android/app",
     "generate:android:apk": "npm run generate:android:bundle && cd android && ./gradlew assembleRelease",
     "generate:android:bundle": "npm run build && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle",
-    "build:docker:image": "docker build -t #~EXAMPLE_NAME~#.image -f ./Dockerfile ../",
-    "extract:docker:apk": "docker create -ti --name #~EXAMPLE_NAME~#-container #~EXAMPLE_NAME~#.image /bin/bash && docker cp #~EXAMPLE_NAME~#-container:/package/example/android/app/build/outputs/apk/release/app-release.apk #~EXAMPLE_NAME~#.apk && docker rm -fv #~EXAMPLE_NAME~#-container",
+    "build:docker:image": "docker build -t {{paramCase appName}}.image -f ./Dockerfile ../",
+    "extract:docker:apk": "docker create -ti --name {{paramCase appName}}-container {{paramCase appName}}.image /bin/bash && docker cp {{paramCase appName}}-container:/package/example/android/app/build/outputs/apk/release/app-release.apk {{paramCase appName}}.apk && docker rm -fv {{paramCase appName}}-container",
     "build:release:docker": "npm run build:docker:image && npm run extract:docker:apk"
   },
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.5",
-    "#~PROJECT_NAME~#": "file:.."
+    "{{packageName}}": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

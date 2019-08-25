@@ -1,4 +1,4 @@
-package com.#~EXAMPLE_NAME~#;
+package com.{{packageCase appName}};
 
 import android.app.Application;
 import android.util.Log;
