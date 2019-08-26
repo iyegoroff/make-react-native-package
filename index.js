@@ -1,4 +1,5 @@
 const path = require('path')
+const { spawn } = require('child_process')
 const { promisify } = require('util')
 const commandLineArgs = require('command-line-args')
 const commandLineUsage = require('command-line-usage')
@@ -8,6 +9,7 @@ const through = require('through2')
 const Confirm = require('prompt-confirm')
 const Handlebars = require('handlebars')
 const rimraf = require('rimraf')
+const chalk = require('chalk')
 const { version } = require('./package.json')
 
 const del = promisify(rimraf)
@@ -158,7 +160,7 @@ const packageMap = {
   objcPrefix: objcPrefix
     ? objcPrefix.toUpperCase()
     : pascalCase(packageName).replace(/[^A-Z]/g, ''),
-  description: description || 'Mysterious react-native package',
+  description: description || 'Yet another react-native package',
   email: email ? ` <${email}>` : '',
   npmUsername: npmUsername || githubUsername,
   components: components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]),
@@ -237,6 +239,17 @@ const makePackage = async () => {
 
   await del(`${packagePath}/**/component-template`)
   await del(`${packagePath}/**/module-template`)
+
+  await new Promise((resolve) => {
+    spawn('npm', ['run', 'init:package'], { stdio: 'inherit', cwd: packageName })
+      .on('close', (code) => {
+        if (code === 0) {
+          console.log(chalk.green.bold(`\nSuccessfully bootstrapped ${packageName} package!\n`))
+        }
+
+        resolve(code)
+      })
+  })
 }
 
 if (skipConfirmation) {
