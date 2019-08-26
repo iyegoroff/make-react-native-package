@@ -192,14 +192,14 @@ const copyOptions = (map) => ({
   transform: function (src) {
     const skipTransform = ['.png', '.jar', '.keystore'].includes(path.extname(src))
 
-    return !skipTransform && through(function (chunk, enc, done)  {
+    return !skipTransform && through(function (chunk, enc, done) {
       try {
         done(null, transform(map)(chunk.toString()))
       } catch (e) {
         console.log(e, src)
       }
-		})
-	}
+    })
+  }
 })
 
 const packagePath = `${process.cwd()}/${packageMap.packageName}`
@@ -254,7 +254,6 @@ const makePackage = async () => {
 
 if (skipConfirmation) {
   makePackage()
-
 } else {
   const prompt = new Confirm('Is this OK?')
   prompt.ask(async (answer) => {

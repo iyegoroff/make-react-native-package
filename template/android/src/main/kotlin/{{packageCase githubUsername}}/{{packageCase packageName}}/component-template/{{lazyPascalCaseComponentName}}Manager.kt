@@ -2,12 +2,12 @@ package {{packageCase githubUsername}}.{{packageCase packageName}}.{{lazyPackage
 
 import android.graphics.Color
 import com.facebook.react.module.annotations.ReactModule
+import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
-import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 
 @ReactModule(name = {{lazyPascalCaseComponentName}}Manager.reactClass)
-class {{lazyPascalCaseComponentName}}Manager : ViewGroupManager<{{lazyPascalCaseComponentName}}>() {
+class {{lazyPascalCaseComponentName}}Manager : SimpleViewManager<{{lazyPascalCaseComponentName}}>() {
 
   companion object {
     const val reactClass = "{{objcPrefix}}{{lazyPascalCaseComponentName}}"

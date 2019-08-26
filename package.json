@@ -5,7 +5,7 @@
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard index.js --fix"
   },
   "keywords": [],
   "author": "iyegoroff <iegoroff@gmail.com>",
@@ -20,5 +20,8 @@
     "recursive-copy": "^2.0.10",
     "rimraf": "^3.0.0",
     "through2": "^3.0.1"
+  },
+  "devDependencies": {
+    "standard": "^14.0.2"
   }
 }
