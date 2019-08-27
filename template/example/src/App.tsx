@@ -22,15 +22,26 @@ const styles = StyleSheet.create({
   }
 })
 
-const App = () => (
-  <View style={styles.container}>
-  {{#each components}}
-    <{{pascalCase this}}
-      style={styles.component}
-      color={'red'}
-    />
+class App extends React.Component<{}> {
+
+  componentDidMount() {
+  {{#each modules}}
+    {{pascalCase this}}.show('{{pascalCase this}}')
   {{/each}}
-  </View>
-)
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+      {{#each components}}
+        <{{pascalCase this}}
+          style={styles.component}
+          color={'red'}
+        />
+      {{/each}}
+      </View>
+    )
+  }
+}
 
 export default App

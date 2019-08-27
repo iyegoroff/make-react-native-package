@@ -34,7 +34,7 @@
   buildscript {
     ext {
       ...
-  +   kotlinVersion = "1.3.41"
+  +   kotlinVersion = "1.3.50"
     }
   ...
 
@@ -75,16 +75,6 @@ import {
 {{/each}}
 } from '{{packageName}}'
 
-const App = () => (
-  <View style=\{{ width: '100%', height: '100%' }}>
-  {{#each components}}
-    <{{pascalCase this}}
-      style=\{{ width: 100, height: 100, margin: 5 }}
-      color={'red'}
-    />
-  {{/each}}
-  </View>
-)
 ```
 
 ## Reference

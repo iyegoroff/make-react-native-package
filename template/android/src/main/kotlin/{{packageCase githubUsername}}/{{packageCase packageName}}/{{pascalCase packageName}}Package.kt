@@ -6,7 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 
 {{#each modules}}
-import {{packageCase ../githubUsername}}.{{packageCase ../packageName}}.{{packageCase this}}.{{pascalCase this}}Manager
+import {{packageCase ../githubUsername}}.{{packageCase ../packageName}}.{{packageCase this}}.{{pascalCase this}}
 {{/each}}
 {{#each components}}
 import {{packageCase ../githubUsername}}.{{packageCase ../packageName}}.{{packageCase this}}.{{pascalCase this}}Manager
@@ -17,7 +17,7 @@ class {{pascalCase packageName}}Package : ReactPackage {
     {{#if modules.length}}
     return listOf(
     {{#each modules}}
-      {{pascalCase this}}Manager(){{#unless @last}},{{/unless}}
+      {{pascalCase this}}(reactContext){{#unless @last}},{{/unless}}
     {{/each}}
     )
     {{else}}

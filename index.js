@@ -212,30 +212,30 @@ console.log('\nConfiguration:\n')
 console.log(packageMap)
 console.log()
 
+const copyTemplates = async (src, map, name) => {
+  const options = copyOptions(map)
+
+  await copy(`${androidSourcesPath}/${src}`, `${androidSourcesPath}/${packageCase(name)}`, options)
+
+  await copy(`${iosSourcesPath}/${src}`, `${iosSourcesPath}/${pascalCase(name)}`, options)
+
+  await copy(
+    `${typescriptSourcesPath}/${src}`,
+    `${typescriptSourcesPath}/${pascalCase(name)}`,
+    options
+  )
+}
+
 const makePackage = async () => {
   await copy(`${__dirname}/template`, packagePath, copyOptions({ ...packageMap, ...miscMap }))
 
-  await Promise.all(componentMaps.map(async (map) => {
-    const options = copyOptions(map)
+  await Promise.all(componentMaps.map(async (map) => (
+    copyTemplates('component-template', map, map.componentName)
+  )))
 
-    await copy(
-      `${androidSourcesPath}/component-template`,
-      `${androidSourcesPath}/${packageCase(map.componentName)}`,
-      options
-    )
-
-    await copy(
-      `${iosSourcesPath}/component-template`,
-      `${iosSourcesPath}/${pascalCase(map.componentName)}`,
-      options
-    )
-
-    await copy(
-      `${typescriptSourcesPath}/component-template`,
-      `${typescriptSourcesPath}/${pascalCase(map.componentName)}`,
-      options
-    )
-  }))
+  await Promise.all(moduleMaps.map(async (map) => (
+    copyTemplates('module-template', map, map.moduleName)
+  )))
 
   await del(`${packagePath}/**/component-template`)
   await del(`${packagePath}/**/module-template`)
