@@ -10,13 +10,14 @@ const Confirm = require('prompt-confirm')
 const Handlebars = require('handlebars')
 const rimraf = require('rimraf')
 const chalk = require('chalk')
+const randomColor = require('randomcolor')
 const { version } = require('./package.json')
 
 const del = promisify(rimraf)
 
 const packageCase = (input) => lowerCase(camelCase(input))
 
-Handlebars.registerHelper({ pascalCase, paramCase, camelCase, packageCase })
+Handlebars.registerHelper({ pascalCase, paramCase, camelCase, packageCase, randomColor })
 
 const sections = [
   {
@@ -80,10 +81,16 @@ const sections = [
         description: 'Your npm email.'
       },
       {
-        name: 'skipConfirmation',
+        name: 'withoutConfirmation',
+        alias: 'w',
+        type: Boolean,
+        description: 'Skip confirmation prompt.'
+      },
+      {
+        name: 'skipInstall',
         alias: 's',
         type: Boolean,
-        description: 'Create package without confirm prompt.'
+        description: 'Skip dependency installation.'
       },
       {
         name: 'help',
@@ -120,7 +127,8 @@ const optionDefinitions = [
   { name: 'description', alias: 'd', type: String },
   { name: 'npmUsername', alias: 'n', type: String },
   { name: 'email', alias: 'e', type: String },
-  { name: 'skipConfirmation', alias: 's', type: Boolean },
+  { name: 'withoutConfirmation', alias: 'w', type: Boolean },
+  { name: 'skipInstall', alias: 's', type: Boolean },
   { name: 'help', alias: 'h', type: Boolean }
 ]
 
@@ -134,7 +142,8 @@ const {
   description,
   npmUsername,
   email,
-  skipConfirmation,
+  withoutConfirmation,
+  skipInstall,
   help
 } = commandLineArgs(optionDefinitions)
 
@@ -226,6 +235,10 @@ const copyTemplates = async (src, map, name) => {
   )
 }
 
+const done = () => {
+  console.log(chalk.green.bold(`\nSuccessfully bootstrapped ${packageName} package!\n`))
+}
+
 const makePackage = async () => {
   await copy(`${__dirname}/template`, packagePath, copyOptions({ ...packageMap, ...miscMap }))
 
@@ -240,19 +253,28 @@ const makePackage = async () => {
   await del(`${packagePath}/**/component-template`)
   await del(`${packagePath}/**/module-template`)
 
-  await new Promise((resolve) => {
-    spawn('npm', ['run', 'init:package'], { stdio: 'inherit', cwd: packageName })
-      .on('close', (code) => {
-        if (code === 0) {
-          console.log(chalk.green.bold(`\nSuccessfully bootstrapped ${packageName} package!\n`))
-        }
+  if (!skipInstall) {
+    await new Promise((resolve) => {
+      spawn('npm', ['run', 'init:package'], { stdio: 'inherit', cwd: packageName })
+        .on('close', (code) => {
+          if (code === 0) {
+            done()
+          }
 
-        resolve(code)
-      })
-  })
+          resolve(code)
+        })
+    })
+  } else {
+    done()
+
+    console.log(
+      'You can run `npm run init:package` from your package root folder to install dependencies ' +
+      'later.\n'
+    )
+  }
 }
 
-if (skipConfirmation) {
+if (withoutConfirmation) {
   makePackage()
 } else {
   const prompt = new Confirm('Is this OK?')

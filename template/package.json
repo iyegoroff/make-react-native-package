@@ -12,7 +12,7 @@
   "scripts": {
     "init:package": "cd example && npm i && npm run install:pods",
     "build": "rm -rf dist && tsc -p ./src",
-    "watch": "tsc -p ./src -w",
+    "watch": "npm run build -- -w",
     "lint": "npm run lint:ts && npm run lint:kotlin && npm run lint:swift",
     "lint:ts": "tslint --fix -p ./src && tslint --fix -p ./example/src",
     "lint:kotlin": "cd example/android && ./gradlew ktlintMainSourceSetFormat",
@@ -41,11 +41,11 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@types/react-native": "^0.60.3",
-    "tslint": "^5.18.0",
-    "tslint-config-standard": "^8.0.1",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.5.3"
+    "@types/react-native": "0.60.8",
+    "tslint": "5.19.0",
+    "tslint-config-standard": "8.0.1",
+    "tslint-react": "4.0.0",
+    "typescript": "3.5.3"
   },
   "files": [
     "android",

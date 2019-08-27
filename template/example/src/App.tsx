@@ -36,7 +36,7 @@ class App extends React.Component<{}> {
       {{#each components}}
         <{{pascalCase this}}
           style={styles.component}
-          color={'red'}
+          color={'{{randomColor}}'}
         />
       {{/each}}
       </View>

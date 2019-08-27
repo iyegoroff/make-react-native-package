@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - run: npm i && npm run ci:lint
+
+  publish:
+    docker:
+      - image: circleci/node:10.10
+    steps:
+      - checkout
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: npm publish
+
+
+workflows:
+  version: 2
+  package:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - publish:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

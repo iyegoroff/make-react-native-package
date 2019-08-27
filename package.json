@@ -5,11 +5,27 @@
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
-    "test": "standard index.js --fix"
+    "lint": "npm run ci:lint -- --fix",
+    "ci:lint": "standard './index.js'",
+    "preversion": "npm run lint",
+    "postversion": "git push && git push --tags"
   },
-  "keywords": [],
+  "keywords": [
+    "react-native",
+    "scaffold",
+    "swift",
+    "kotlin"
+  ],
   "author": "iyegoroff <iegoroff@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iyegoroff/make-react-native-package/issues"
+  },
+  "homepage": "https://github.com/iyegoroff/make-react-native-package#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iyegoroff/make-react-native-package.git"
+  },
   "dependencies": {
     "chalk": "^2.4.2",
     "change-case": "^3.1.0",
@@ -17,6 +33,7 @@
     "command-line-usage": "^6.0.2",
     "handlebars": "^4.1.2",
     "prompt-confirm": "^2.0.4",
+    "randomcolor": "^0.5.4",
     "recursive-copy": "^2.0.10",
     "rimraf": "^3.0.0",
     "through2": "^3.0.1"

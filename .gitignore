@@ -88,3 +88,5 @@ typings/
 .dynamodb/
 
 react-native-*
+
+.ionide
