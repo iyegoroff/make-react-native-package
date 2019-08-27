@@ -1,13 +1,13 @@
 {
   "name": "{{packageName}}",
   "version": "0.0.1",
-  "description": "{{description}}",
+  "description": "{{{description}}}",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "keywords": [
     "react-native"
   ],
-  "author": "{{npmUsername}}{{email}}",
+  "author": "{{npmUsername}}{{{email}}}",
   "license": "MIT",
   "scripts": {
     "init:package": "cd example && npm i && npm run install:pods",
