@@ -13,7 +13,7 @@ CLI tool for bootstrapping react-native packages with Kotlin/Swift/Typescript
 ## Getting started
 
 ```
-$ npx make-react-native-package --packageName react-native-cool-component --githubUsername cool-github-user
+$ npx make-react-native-package -p react-native-cool-component --githubUsername cool-github-user
 ```
 
 ## Usage guide
