@@ -53,6 +53,8 @@
     "src",
     "dist",
     "example",
+    ".dockerignore",
+    ".editorconfig",
     "tslint.json",
     "*.md",
     "*.podspec",

@@ -181,6 +181,7 @@ const packageMap = {
 const componentMaps = packageMap.components.map((componentName) => ({ componentName }))
 const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
 const miscMap = {
+  package: 'package',
   mrnpVersion: version,
   rnVersion: '0.60.5',
   currentYear: `${new Date().getFullYear()}`,
