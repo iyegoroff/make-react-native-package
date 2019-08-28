@@ -13,7 +13,7 @@ CLI tool for bootstrapping react-native packages with Kotlin/Swift/Typescript
 - CLI tool:
   - single command to scaffold a monorepo with package itself and ready-to-run example app
   - can create any amount of dummy native components and modules inside same package
-  - versioning doesn't follow 'semver', major and minor numbers match the ones from specific version of `react-native` whose project template is used by MRNP
+  - versioning doesn't follow 'semver', major and minor numbers match the ones from specific version of <code>react&#x2011;native</code> whose project template is used by MRNP
 - Bootstrapped package:
   - supports `iOS` & `Android` & react-native "<strong>&gt;= 0.60.0</strong>"
   - contains (absolutely optional) basic CI setup: CircleCI -&gt; lint & build -&gt; npm
@@ -89,4 +89,4 @@ If you have an account on CircleCI you can use it for publishing a package when 
 
 - [iyegoroff/react-native-multi-segmented-control](https://github.com/iyegoroff/react-native-multi-segmented-control)
 
-Packages that were bootstrapped with MRNP most likely will contain `Bootstrapped with make-react-native-package` string  marker in their `README.md` files, so could be easily found with Github search.
+Packages that were bootstrapped with MRNP most likely will contain <code>Bootstrapped&nbsp;with&nbsp;make&#x2011;react&#x2011;native&#x2011;package</code> string  marker in their `README.md` files, so could be easily found with Github search.
