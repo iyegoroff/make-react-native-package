@@ -40,5 +40,8 @@
   },
   "devDependencies": {
     "standard": "^14.0.2"
-  }
+  },
+  "files": [
+    "template"
+  ]
 }
