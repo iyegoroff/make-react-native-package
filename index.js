@@ -174,8 +174,10 @@ const packageMap = {
   description: description || 'Yet another react-native package',
   email: email ? ` <${email}>` : '',
   npmUsername: npmUsername || githubUsername,
-  components: components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]),
-  modules: modules || []
+  components: [
+    ...new Set(components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]))
+  ],
+  modules: [...new Set(modules || [])]
 }
 
 const componentMaps = packageMap.components.map((componentName) => ({ componentName }))

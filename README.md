@@ -10,6 +10,16 @@ CLI tool for bootstrapping react-native packages with Kotlin/Swift/Typescript
 
 ## About
 
+- CLI tool:
+  - single command to scaffold a monorepo with package itself and ready-to-run example app
+  - can create any amount of dummy native components and modules inside same package
+  - versioning doesn't follow 'semver', major and minor numbers match the ones from specific version of `react-native` whose project template is used by MRNP
+- Bootstrapped package:
+  - supports `iOS` & `Android` & react-native "<strong>&gt;= 0.60.0</strong>"
+  - contains (absolutely optional) basic CI setup: CircleCI -&gt; lint & build -&gt; npm
+  - has setup instructions for package end-users in generated `README.md` files
+  - includes a `Dockerfile` for creating a release example `.apk` in 'neutral' environment
+
 ## Getting started
 
 ```
@@ -54,10 +64,29 @@ $ npx make-react-native-package --help
 
 ## Workflow
 
+### Installation
+
+Usually no additional steps required after bootstrapping a package. However, if you have skipped dependency installation with <strong>--skipInstall</strong> option you can setup everything later by running `npm run init:package` from package root folder.
+
 ### Development
 
+Generated folder contains the package itself in the root and the sample app inside `example` folder.
+Example app imports package dependency locally as a `file:..` symlink, so all changes inside the root folder will be available for a running app and editors/IDEs immediately.
+
+To watch on Typescript sources changes you have to run `npm run watch` commands from <strong>both</strong> root and `example` folders. Most of 'development' commands are located in `example/package.json` scripts section, and `watch` script from `package.json` probably is the only common 'development' command in the root folder.
+
+To build native code and run sample app on device/simulator just use standard react-native 'run' commands or 'run' buttons from `Xcode`/`AndroidStudio`.
+
 ### Publishing
+
+There are two options: publishing from local machine or publishing from CircleCI.
+
+To publish from a local machine just run `npm version <your_package_next_version> && npm publish` from package root folder. It will run linters and build Typescript sources in `preversion` hook and push changes and git tags to a remote repo in `postversion` hook. Then if everything succeed, the package will be published to npm.
+
+If you have an account on CircleCI you can use it for publishing a package when git tags are being pushed to a remote repo. Note that before enabling your package in CircleCI dashboard you should either ask their support for [macOS plan](https://circleci.com/pricing/#faq-section-linux) (it is free for open-source projects) or remove `test-ios` job related code from `.circleci/config.yml` file. Also you have to set `NPM_TOKEN` environment variable in CircleCI dashboard project settings - this token can be created directly on npmjs.com or imported from your other CircleCI project. When everything is ready run `npm version <your_package_next_version>` to initiate a `publish` job on CircleCI. It won't only lint sources and build Typescript, but also will check that native code compiles (this can take some time). After both `test-ios` and `test-android` jobs succeed the `publish` job will be triggered.
 
 ## Created with MRNP
 
 - [iyegoroff/react-native-multi-segmented-control](https://github.com/iyegoroff/react-native-multi-segmented-control)
+
+Packages that were bootstrapped with MRNP most likely will contain `Bootstrapped with make-react-native-package` string  marker in their `README.md` files, so could be easily found with Github search.
