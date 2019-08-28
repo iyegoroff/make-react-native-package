@@ -180,6 +180,7 @@ const componentMaps = packageMap.components.map((componentName) => ({ componentN
 const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
 const miscMap = {
   mrnpVersion: version,
+  rnVersion: '0.60.5',
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
   lazyParamCaseComponentName: '{{paramCase componentName}}',

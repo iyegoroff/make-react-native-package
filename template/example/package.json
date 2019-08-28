@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "react": "16.8.6",
-    "react-native": "0.60.5",
+    "react-native": "{{rnVersion}}",
     "{{packageName}}": "file:.."
   },
   "devDependencies": {

@@ -16,14 +16,14 @@
 - iOS & Android:
   - ???
 - react-native:
-  - supported versions "<strong>&gt;= 0.60.0</strong>"
+  - supported versions "<strong>&gt;= {{rnVersion}}</strong>"
 
 ## Installation
 
 <table>
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
-  <summary>with react-native "<strong>&gt;=0.60.0</strong>"</summary>
+  <summary>with react-native "<strong>&gt;={{rnVersion}}</strong>"</summary>
 
 ### 0. Setup Swift and Kotlin
 
