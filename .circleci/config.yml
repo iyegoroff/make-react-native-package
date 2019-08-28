@@ -8,8 +8,6 @@ jobs:
       - checkout
 
       - run: npm i && npm run ci:lint
-      - run: npm -v
-      - run: npm pack
 
   publish:
     docker:
