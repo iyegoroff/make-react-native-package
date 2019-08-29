@@ -75,7 +75,11 @@ Example app imports package dependency locally as a `file:..` symlink, so all ch
 
 To watch on Typescript sources changes you have to run `npm run watch` commands from <strong>both</strong> root and `./example` folders. Most of 'development' commands are located in `./example/package.json` scripts section, and `watch` script from `./package.json` probably is the only common 'development' command in the root folder.
 
-To build native code and run sample app on device/simulator just use standard react-native 'run' commands or 'run' buttons from `Xcode`/`AndroidStudio`.
+To open a project in `Xcode` go to `./example/ios` folder and open `.xcworkspace` file, package `Swift` sources should be found inside `Pods > Development Pods > {{packageName}}` group in project navigator.
+
+To open a project from `Android Studio` 'welcome to' window press `Import project` and open `./example/android` folder, after `gradle` sync task completes package `Kotlin` sources should be found inside `{{packageName}} > java` group in project tool window.
+
+To build native code and run sample app on device/simulator just use standard react-native 'run' commands or 'run' buttons from `Xcode`/`Android Studio`.
 
 ### Publishing
 
@@ -83,7 +87,7 @@ There are two options: publishing from local machine or publishing from CircleCI
 
 To publish from a local machine just run `npm version <your_package_next_version> && npm publish` from package root folder. It will run linters and build Typescript sources in `preversion` hook and push changes and git tags to a remote repo in `postversion` hook. Then if everything succeed, the package will be published to npm.
 
-If you have an account on CircleCI you can use it for publishing a package when git tags are being pushed to a remote repo. Note that before enabling your package in CircleCI dashboard you should either ask their support for [macOS plan](https://circleci.com/pricing/#faq-section-linux) (it is free for open-source projects) or remove `test-ios` job related code from `.circleci/config.yml` file. Also you have to set `NPM_TOKEN` environment variable in CircleCI dashboard project settings - this token can be created directly on [npmjs.com](https://npmjs.com) or imported from your other CircleCI project. When everything is ready run `npm version <your_package_next_version>` to initiate a `publish` job on CircleCI. It won't only lint sources and build Typescript, but also will check that native code compiles (this can take some time). After both `test-ios` and `test-android` jobs succeed the `publish` job will be triggered.
+If you have an account on CircleCI you can use it for publishing a package when git tags are being pushed to a remote repo. Note that before enabling your package in CircleCI dashboard you should either ask their support for [macOS plan](https://circleci.com/pricing/#faq-section-linux) (it is free for open-source projects) or remove `test-ios` job related code from `.circleci/config.yml` file. Also you have to set `NPM_TOKEN` environment variable in CircleCI dashboard project settings - this token can be created directly on [npmjs.com](https://npmjs.com) or imported from your other CircleCI project. When everything is ready run `npm version <your_package_next_version> -m "%s [skip ci]"` to initiate just `publish` job on CircleCI without triggering surplus `test-ios` & `test-android` jobs because of master branch changes. It won't only lint sources and build Typescript, but also will check that native code compiles (this can take some time). After both `test-ios` and `test-android` jobs succeed the `publish` job will be triggered.
 
 ## Created with MRNP
 
