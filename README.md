@@ -89,4 +89,4 @@ If you have an account on CircleCI you can use it for publishing a package when 
 
 - [iyegoroff/react-native-multi-segmented-control](https://github.com/iyegoroff/react-native-multi-segmented-control)
 
-Packages that were bootstrapped with MRNP most likely will contain <code>Bootstrapped&nbsp;with&nbsp;make&#x2011;react&#x2011;native&#x2011;package</code> string  marker in their `README.md` files, so they could be easily found with Github search.
+Packages that were bootstrapped with MRNP most likely will contain `Bootstrapped with make-react-native-package` string  marker in their `README.md` files, so they could be easily found with Github search.
