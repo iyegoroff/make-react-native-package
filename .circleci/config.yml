@@ -1,13 +1,44 @@
 version: 2
 jobs:
-  build:
+  lint:
     docker:
       - image: circleci/node:10.16.3
     working_directory: ~/repo
+
     steps:
       - checkout
 
-      - run: npm i && npm run ci:lint
+      - run: npm i
+      - run: npm run ci:lint
+
+  test-mock-ts-and-kotlin:
+    docker:
+      - image: circleci/android:api-28-node
+    environment:
+      JVM_OPTS: -Xmx3200m
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold-mock
+      - run: npm run test:ts
+      - run: npm run test:kotlin
+      - run: npm run test:cleanup
+
+  test-mock-swift:
+    macos:
+      xcode: "10.3.0"
+    working_directory: /Users/distiller/project
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold-mock
+      - run: npm run test:swift
+      - run: npm run test:cleanup
 
   publish:
     docker:
@@ -28,7 +59,9 @@ workflows:
               only: /.*/
       - publish:
           requires:
-            - build
+            - lint
+            - test-mock-ts-and-kotlin
+            - test-mock-swift
           filters:
             tags:
               only: /^v.*/
