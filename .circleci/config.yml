@@ -43,8 +43,10 @@ jobs:
   publish:
     docker:
       - image: circleci/node:10.16.3
+
     steps:
       - checkout
+
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: npm publish
 
@@ -53,10 +55,21 @@ workflows:
   version: 2
   package:
     jobs:
-      - build:
+      - lint:
           filters:
             tags:
               only: /.*/
+
+      - test-mock-ts-and-kotlin:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-mock-swift:
+          filters:
+            tags:
+              only: /.*/
+
       - publish:
           requires:
             - lint
