@@ -13,8 +13,8 @@
     "test:scaffold-mock": "./index.js -p mock-package -g mock-user -w -c FakeComponent component-doodle -m falseModule dummy_module",
     "test:cleanup": "rm -rf mock-package",
     "test:ts": "cd mock-package && npm run ci:build && npm run ci:lint:ts",
-    "test:kotlin": "cd mock-package && npm run ci:lint:kotlin && ci:compile:android",
-    "test:swift": "cd mock-package && npm run ci:lint:swift && ci:compile:ios"
+    "test:kotlin": "cd mock-package && npm run ci:lint:kotlin && npm run ci:compile:android",
+    "test:swift": "cd mock-package && npm run ci:lint:swift && npm run ci:compile:ios"
   },
   "keywords": [
     "react-native",
