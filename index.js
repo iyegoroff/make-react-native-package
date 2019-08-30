@@ -227,6 +227,7 @@ const androidSourcesPath = `${packagePath}/android/src/main/kotlin/` +
 const iosSourcesPath = `${packagePath}/ios`
 const typescriptSourcesPath = `${packagePath}/src`
 
+console.log(`\nUsing project template from react-native ${rnVersion}`)
 console.log('\nConfiguration:\n')
 console.log(packageMap)
 console.log()

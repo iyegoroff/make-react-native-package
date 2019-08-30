@@ -11,7 +11,20 @@ jobs:
       - run: npm i
       - run: npm run ci:lint
 
-  test-mock-ts-and-kotlin:
+  test-mock-ts:
+    docker:
+      - image: circleci/node:10.16.3
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold-mock
+      - run: npm run test:ts
+      - run: npm run test:cleanup
+
+  test-mock-kotlin:
     docker:
       - image: circleci/android:api-28-node
     environment:
@@ -23,7 +36,6 @@ jobs:
 
       - run: npm i
       - run: npm run test:scaffold-mock
-      - run: npm run test:ts
       - run: npm run test:kotlin
       - run: npm run test:cleanup
 
@@ -60,7 +72,12 @@ workflows:
             tags:
               only: /.*/
 
-      - test-mock-ts-and-kotlin:
+      - test-mock-ts:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-mock-kotlin:
           filters:
             tags:
               only: /.*/
@@ -73,7 +90,8 @@ workflows:
       - publish:
           requires:
             - lint
-            - test-mock-ts-and-kotlin
+            - test-mock-ts
+            - test-mock-kotlin
             - test-mock-swift
           filters:
             tags:
