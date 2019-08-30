@@ -13,7 +13,10 @@ const Handlebars = require('handlebars')
 const rimraf = require('rimraf')
 const chalk = require('chalk')
 const randomColor = require('randomcolor')
-const { version } = require('./package.json')
+
+const { version: mrnpVersion } = require('./package.json')
+const { dependencies } = require('./template/example/{{package}}.json')
+const rnVersion = dependencies['react-native']
 
 const del = promisify(rimraf)
 
@@ -185,8 +188,8 @@ const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
 const miscMap = {
   package: 'package',
   gitignore: '.gitignore',
-  mrnpVersion: version,
-  rnVersion: '0.60.5',
+  mrnpVersion,
+  rnVersion,
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
   lazyParamCaseComponentName: '{{paramCase componentName}}',
