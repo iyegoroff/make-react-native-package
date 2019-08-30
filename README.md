@@ -6,7 +6,7 @@
 [![devDependencies Status](https://david-dm.org/iyegoroff/make-react-native-package/dev-status.svg)](https://david-dm.org/iyegoroff/make-react-native-package?type=dev)
 [![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/make-react-native-package)
 
-CLI tool for bootstrapping react-native packages with Kotlin/Swift/Typescript
+CLI tool for bootstrapping react-native packages with Kotlin & Swift & Typescript
 
 ## About
 
