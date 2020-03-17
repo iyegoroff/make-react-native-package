@@ -7,6 +7,9 @@
     "lib": ["es2016"],
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noEmitOnError": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "types": []
   }
 }

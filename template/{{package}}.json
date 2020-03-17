@@ -41,11 +41,11 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@types/react-native": "0.60.8",
-    "tslint": "5.19.0",
-    "tslint-config-standard": "8.0.1",
-    "tslint-react": "4.0.0",
-    "typescript": "3.5.3"
+    "@types/react-native": "0.61.22",
+    "tslint": "6.1.0",
+    "tslint-config-standard": "9.0.0",
+    "tslint-react": "4.2.0",
+    "typescript": "3.8.3"
   },
   "files": [
     "android",

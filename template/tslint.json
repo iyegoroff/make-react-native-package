@@ -9,6 +9,7 @@
     "max-file-line-count": [true, 300],
     "ter-indent": [true, 2, { "SwitchCase": true }],
     "no-null-keyword": true,
+    "no-non-null-assertion": true,
     "no-any": true,
     "prefer-const": true,
     "no-import-side-effect": true,

@@ -33,19 +33,20 @@
     "url": "git+https://github.com/iyegoroff/make-react-native-package.git"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "change-case": "^3.1.0",
+    "chalk": "^3.0.0",
+    "change-case": "^4.1.1",
     "command-line-args": "^5.1.1",
-    "command-line-usage": "^6.0.2",
-    "handlebars": "^4.1.2",
+    "command-line-usage": "^6.1.0",
+    "handlebars": "^4.7.3",
+    "lower-case": "^2.0.1",
     "prompt-confirm": "^2.0.4",
     "randomcolor": "^0.5.4",
     "recursive-copy": "^2.0.10",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "through2": "^3.0.1"
   },
   "devDependencies": {
-    "standard": "^14.0.2"
+    "standard": "^14.3.3"
   },
   "standard": {
     "ignore": [

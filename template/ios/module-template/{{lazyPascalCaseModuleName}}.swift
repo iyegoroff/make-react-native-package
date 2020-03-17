@@ -6,8 +6,11 @@ class {{lazyPascalCaseModuleName}}: NSObject {
   @objc func show(_ message: String) {
     let alert = UIAlertController(title: "{{objcPrefix}}{{lazyPascalCaseModuleName}}",
                                   message: message,
-                                  preferredStyle: UIAlertController.Style.actionSheet)
+                                  preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-    RCTPresentedViewController()?.present(alert, animated: true)
+
+    DispatchQueue.main.async {
+      RCTPresentedViewController()?.present(alert, animated: true)
+    }
   }
 }
