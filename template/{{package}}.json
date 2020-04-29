@@ -10,7 +10,7 @@
   "author": "{{npmUsername}}{{{email}}}",
   "license": "MIT",
   "scripts": {
-    "init:package": "cd example && npm i && npm run lint:ts && npm run install:pods",
+    "init:package": "cd example && npm i && npm run install:pods",
     "build": "rm -rf dist && tsc -p ./src",
     "watch": "npm run build -- -w",
     "lint": "npm run lint:ts && npm run lint:kotlin && npm run lint:swift",
