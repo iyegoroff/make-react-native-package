@@ -34,7 +34,7 @@
   buildscript {
     ext {
       ...
-  +   kotlinVersion = "1.3.50"
+  +   kotlinVersion = "{{kotlinVersion}}"
     }
   ...
 

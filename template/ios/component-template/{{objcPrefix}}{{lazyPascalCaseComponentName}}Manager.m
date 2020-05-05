@@ -13,5 +13,7 @@
 // }
 
 RCT_EXPORT_VIEW_PROPERTY(color, UIColor)
+RCT_EXPORT_VIEW_PROPERTY(count, NSInteger)
+RCT_EXPORT_VIEW_PROPERTY(onCountChange, RCTDirectEventBlock)
 
 @end

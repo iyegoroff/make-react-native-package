@@ -18,6 +18,7 @@ const randomColor = require('randomcolor')
 const { version: mrnpVersion } = require('./package.json')
 const { dependencies } = require('./template/example/{{package}}.json')
 const rnVersion = dependencies['react-native']
+const kotlinVersion = '1.3.72'
 
 const del = promisify(rimraf)
 
@@ -191,6 +192,7 @@ const miscMap = {
   gitignore: '.gitignore',
   mrnpVersion,
   rnVersion,
+  kotlinVersion,
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
   lazyParamCaseComponentName: '{{paramCase componentName}}',
