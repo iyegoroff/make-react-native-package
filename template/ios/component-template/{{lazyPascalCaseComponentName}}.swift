@@ -1,13 +1,5 @@
 import Foundation
 
-extension UIButton {
-  open override var isHighlighted: Bool {
-    didSet {
-      backgroundColor = isHighlighted ? UIColor.lightGray : UIColor.clear
-    }
-  }
-}
-
 class {{lazyPascalCaseComponentName}}: UIView {
   private var label = UILabel()
   private var button = UIButton()

@@ -24,13 +24,20 @@ const del = promisify(rimraf)
 
 const packageCase = (input) => lowerCase(camelCase(input))
 
-Handlebars.registerHelper({ pascalCase, paramCase, camelCase, packageCase, randomColor })
+Handlebars.registerHelper({
+  pascalCase,
+  paramCase,
+  camelCase,
+  packageCase,
+  randomColor,
+})
 
 const sections = [
   {
     header: 'Usage',
-    content: '$ make-react-native-package <{bold --packageName} {underline name}> ' +
-      '<{bold --githubUsername} {underline user}> ...'
+    content:
+      '$ make-react-native-package <{bold --packageName} {underline name}> ' +
+      '<{bold --githubUsername} {underline user}> ...',
   },
   {
     header: 'Required options',
@@ -38,14 +45,14 @@ const sections = [
       {
         name: 'packageName',
         alias: 'p',
-        description: 'The name of project folder, github repo and npm package.'
+        description: 'The name of project folder, github repo and npm package.',
       },
       {
         name: 'githubUsername',
         alias: 'g',
-        description: 'Your github username.'
-      }
-    ]
+        description: 'Your github username.',
+      },
+    ],
   },
   {
     header: 'Options',
@@ -53,91 +60,84 @@ const sections = [
       {
         name: 'appName',
         alias: 'a',
-        description: 'Example app name.'
+        description: 'Example app name.',
       },
       {
         name: 'objcPrefix',
         alias: 'o',
-        description: 'Objective-C file prefix.'
+        description: 'Objective-C file prefix.',
       },
       {
         name: 'components',
         alias: 'c',
         multiple: true,
-        description: 'List of space-separated native component names.'
+        description: 'List of space-separated native component names.',
       },
       {
         name: 'modules',
         alias: 'm',
         multiple: true,
-        description: 'List of space-separated native module names.'
+        description: 'List of space-separated native module names.',
       },
       {
         name: 'description',
         alias: 'd',
-        description: 'Package description.'
+        description: 'Package description.',
       },
       {
         name: 'npmUsername',
         alias: 'n',
-        description: 'Your npm username.'
+        description: 'Your npm username.',
       },
       {
         name: 'email',
         alias: 'e',
-        description: 'Your npm email.'
+        description: 'Your npm email.',
       },
       {
         name: 'withoutConfirmation',
         alias: 'w',
         type: Boolean,
-        description: 'Skip confirmation prompt.'
+        description: 'Skip confirmation prompt.',
       },
       {
         name: 'skipInstall',
         alias: 's',
         type: Boolean,
-        description: 'Skip dependency installation.'
+        description: 'Skip dependency installation.',
+      },
+      {
+        name: 'jetpackComposeAndSwiftUiEnabled',
+        alias: 'j',
+        type: Boolean,
+        description: 'Use Jetpack Compose and Swift UI for components.',
       },
       {
         name: 'help',
         alias: 'h',
         type: Boolean,
-        description: 'Print this usage guide.'
-      }
-    ]
+        description: 'Print this usage guide.',
+      },
+    ],
   },
   {
     header: 'Example',
     content: [
       '$ make-react-native-package ' +
-      '{bold --packageName} {underline react-native-cool-component}',
+        '{bold --packageName} {underline react-native-cool-component}',
       '{hidden   }{bold --githubUsername} {underline octocat} ' +
-      '{bold --appName} {underline CoolExample} ' +
-      '{bold --objcPrefix} {underline RNCC}',
+        '{bold --appName} {underline CoolExample} ' +
+        '{bold --objcPrefix} {underline RNCC}',
       '{hidden   }{bold --description} {underline "Cool description"} ' +
-      '{bold --npmUsername} {underline wombat} ' +
-      '{bold --email} {underline me@mail.org}'
-    ]
-  }
+        '{bold --npmUsername} {underline wombat} ' +
+        '{bold --email} {underline me@mail.org}',
+    ],
+  },
 ]
 
 const usage = commandLineUsage(sections)
 
-const optionDefinitions = [
-  { name: 'packageName', alias: 'p', type: String },
-  { name: 'githubUsername', alias: 'g', type: String },
-  { name: 'appName', alias: 'a', type: String },
-  { name: 'objcPrefix', alias: 'o', type: String },
-  { name: 'components', alias: 'c', type: String, multiple: true },
-  { name: 'modules', alias: 'm', type: String, multiple: true },
-  { name: 'description', alias: 'd', type: String },
-  { name: 'npmUsername', alias: 'n', type: String },
-  { name: 'email', alias: 'e', type: String },
-  { name: 'withoutConfirmation', alias: 'w', type: Boolean },
-  { name: 'skipInstall', alias: 's', type: Boolean },
-  { name: 'help', alias: 'h', type: Boolean }
-]
+const optionDefinitions = sections.flatMap((s) => s.optionList || [])
 
 const {
   packageName,
@@ -151,7 +151,8 @@ const {
   email,
   withoutConfirmation,
   skipInstall,
-  help
+  jetpackComposeAndSwiftUiEnabled,
+  help,
 } = commandLineArgs(optionDefinitions)
 
 if (help) {
@@ -180,12 +181,18 @@ const packageMap = {
   email: email ? ` <${email}>` : '',
   npmUsername: npmUsername || githubUsername,
   components: [
-    ...new Set(components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]))
+    ...new Set(
+      components ||
+        (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')])
+    ),
   ],
-  modules: [...new Set(modules || [])]
+  modules: [...new Set(modules || [])],
+  jetpackComposeAndSwiftUiEnabled,
 }
 
-const componentMaps = packageMap.components.map((componentName) => ({ componentName }))
+const componentMaps = packageMap.components.map((componentName) => ({
+  componentName,
+}))
 const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
 const miscMap = {
   package: 'package',
@@ -193,18 +200,17 @@ const miscMap = {
   mrnpVersion,
   rnVersion,
   kotlinVersion,
+  iosVersion: jetpackComposeAndSwiftUiEnabled ? '13.0' : '9.0',
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
   lazyParamCaseComponentName: '{{paramCase componentName}}',
   lazyPackageCaseComponentName: '{{packageCase componentName}}',
   lazyPascalCaseModuleName: '{{pascalCase moduleName}}',
   lazyParamCaseModuleName: '{{paramCase moduleName}}',
-  lazyPackageCaseModuleName: '{{packageCase moduleName}}'
+  lazyPackageCaseModuleName: '{{packageCase moduleName}}',
 }
 
-const transform = (map) => (data) => (
-  Handlebars.compile(data)(map)
-)
+const transform = (map) => (data) => Handlebars.compile(data)(map)
 
 const copyOptions = (map) => ({
   overwrite: true,
@@ -212,21 +218,29 @@ const copyOptions = (map) => ({
   rename: transform(map),
 
   transform: function (src) {
-    const skipTransform = ['.png', '.jar', '.keystore'].includes(path.extname(src))
+    const skipTransform = ['.png', '.jar', '.keystore'].includes(
+      path.extname(src)
+    )
 
-    return !skipTransform && through(function (chunk, enc, done) {
-      try {
-        done(null, transform(map)(chunk.toString()))
-      } catch (e) {
-        console.log(e, src)
-      }
-    })
-  }
+    return (
+      !skipTransform &&
+      through(function (chunk, enc, done) {
+        try {
+          done(null, transform(map)(chunk.toString()))
+        } catch (e) {
+          console.log(e, src)
+        }
+      })
+    )
+  },
 })
 
 const packagePath = `${process.cwd()}/${packageMap.packageName}`
-const androidSourcesPath = `${packagePath}/android/src/main/kotlin/` +
-  `${packageCase(packageMap.githubUsername)}/${packageCase(packageMap.packageName)}`
+const androidSourcesPath =
+  `${packagePath}/android/src/main/kotlin/` +
+  `${packageCase(packageMap.githubUsername)}/${packageCase(
+    packageMap.packageName
+  )}`
 const iosSourcesPath = `${packagePath}/ios`
 const typescriptSourcesPath = `${packagePath}/src`
 
@@ -238,52 +252,92 @@ console.log()
 const copyTemplates = async (src, map, name) => {
   const options = copyOptions(map)
 
-  await copy(`${androidSourcesPath}/${src}`, `${androidSourcesPath}/${packageCase(name)}`, options)
-
-  await copy(`${iosSourcesPath}/${src}`, `${iosSourcesPath}/${pascalCase(name)}`, options)
+  await copy(
+    `${androidSourcesPath}/${src.native || src}`,
+    `${androidSourcesPath}/${packageCase(name)}`,
+    options
+  )
 
   await copy(
-    `${typescriptSourcesPath}/${src}`,
+    `${iosSourcesPath}/${src.native || src}`,
+    `${iosSourcesPath}/${pascalCase(name)}`,
+    options
+  )
+
+  await copy(
+    `${typescriptSourcesPath}/${src.js || src}`,
     `${typescriptSourcesPath}/${pascalCase(name)}`,
     options
   )
 }
 
 const done = () => {
-  console.log(chalk.green.bold(`\nSuccessfully bootstrapped ${packageName} package!\n`))
+  console.log(
+    chalk.green.bold(`\nSuccessfully bootstrapped ${packageName} package!\n`)
+  )
+}
+
+const removeContextDependentFiles = async () => {
+  if (jetpackComposeAndSwiftUiEnabled) {
+    await del(`${packagePath}/**/UIButton+Highlighted.swift`)
+  } else {
+    await del(`${packagePath}/**/${objcPrefix}Defines.swift`)
+  }
 }
 
 const makePackage = async () => {
-  await copy(`${__dirname}/template`, packagePath, copyOptions({ ...packageMap, ...miscMap }))
+  await copy(
+    `${__dirname}/template`,
+    packagePath,
+    copyOptions({ ...packageMap, ...miscMap })
+  )
 
-  await Promise.all(componentMaps.map(async (map) => (
-    copyTemplates('component-template', map, map.componentName)
-  )))
+  await Promise.all(
+    componentMaps.map(async (map) =>
+      copyTemplates(
+        {
+          native: jetpackComposeAndSwiftUiEnabled
+            ? 'advanced-component-template'
+            : 'component-template',
+          js: 'component-template'
+        },
+        map,
+        map.componentName
+      )
+    )
+  )
 
-  await Promise.all(moduleMaps.map(async (map) => (
-    copyTemplates('module-template', map, map.moduleName)
-  )))
+  await Promise.all(
+    moduleMaps.map(async (map) =>
+      copyTemplates('module-template', map, map.moduleName)
+    )
+  )
 
   await del(`${packagePath}/**/component-template`)
+  await del(`${packagePath}/**/advanced-component-template`)
   await del(`${packagePath}/**/module-template`)
+
+  await removeContextDependentFiles()
 
   if (!skipInstall) {
     await new Promise((resolve) => {
-      spawn('npm', ['run', 'init:package'], { stdio: 'inherit', cwd: packageName })
-        .on('close', (code) => {
-          if (code === 0) {
-            done()
-          }
+      spawn('npm', ['run', 'init:package'], {
+        stdio: 'inherit',
+        cwd: packageName,
+      }).on('close', (code) => {
+        if (code === 0) {
+          done()
+        }
 
-          resolve(code)
-        })
+        resolve(code)
+      })
     })
   } else {
     done()
 
     console.log(
       'You can run `npm run init:package` from your package root folder to install dependencies ' +
-      'later.\n'
+        'later.\n'
     )
   }
 }
