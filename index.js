@@ -187,10 +187,9 @@ const packageMap = {
         (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')])
     )
   ],
-  modules: [...new Set(modules || [])],
-  templates
+  modules: [...new Set(modules || [])]
 }
-const usesSwiftUI = templates.includes('ios:swift-ui')
+const usesSwiftUI = (templates || []).includes('ios:swift-ui')
 const componentMaps = packageMap.components.map((componentName) => ({
   componentName
 }))
