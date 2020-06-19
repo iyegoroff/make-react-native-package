@@ -37,7 +37,7 @@ const sections = [
     header: 'Usage',
     content:
       '$ make-react-native-package <{bold --packageName} {underline name}> ' +
-      '<{bold --githubUsername} {underline user}> ...',
+      '<{bold --githubUsername} {underline user}> ...'
   },
   {
     header: 'Required options',
@@ -45,14 +45,14 @@ const sections = [
       {
         name: 'packageName',
         alias: 'p',
-        description: 'The name of project folder, github repo and npm package.',
+        description: 'The name of project folder, github repo and npm package.'
       },
       {
         name: 'githubUsername',
         alias: 'g',
-        description: 'Your github username.',
-      },
-    ],
+        description: 'Your github username.'
+      }
+    ]
   },
   {
     header: 'Options',
@@ -60,51 +60,51 @@ const sections = [
       {
         name: 'appName',
         alias: 'a',
-        description: 'Example app name.',
+        description: 'Example app name.'
       },
       {
         name: 'objcPrefix',
         alias: 'o',
-        description: 'Objective-C file prefix.',
+        description: 'Objective-C file prefix.'
       },
       {
         name: 'components',
         alias: 'c',
         multiple: true,
-        description: 'List of space-separated native component names.',
+        description: 'List of space-separated native component names.'
       },
       {
         name: 'modules',
         alias: 'm',
         multiple: true,
-        description: 'List of space-separated native module names.',
+        description: 'List of space-separated native module names.'
       },
       {
         name: 'description',
         alias: 'd',
-        description: 'Package description.',
+        description: 'Package description.'
       },
       {
         name: 'npmUsername',
         alias: 'n',
-        description: 'Your npm username.',
+        description: 'Your npm username.'
       },
       {
         name: 'email',
         alias: 'e',
-        description: 'Your npm email.',
+        description: 'Your npm email.'
       },
       {
         name: 'withoutConfirmation',
         alias: 'w',
         type: Boolean,
-        description: 'Skip confirmation prompt.',
+        description: 'Skip confirmation prompt.'
       },
       {
         name: 'skipInstall',
         alias: 's',
         type: Boolean,
-        description: 'Skip dependency installation.',
+        description: 'Skip dependency installation.'
       },
       {
         name: 'templates',
@@ -117,9 +117,9 @@ const sections = [
         name: 'help',
         alias: 'h',
         type: Boolean,
-        description: 'Print this usage guide.',
-      },
-    ],
+        description: 'Print this usage guide.'
+      }
+    ]
   },
   {
     header: 'Example',
@@ -131,9 +131,9 @@ const sections = [
         '{bold --objcPrefix} {underline RNCC}',
       '{hidden   }{bold --description} {underline "Cool description"} ' +
         '{bold --npmUsername} {underline wombat} ' +
-        '{bold --email} {underline me@mail.org}',
-    ],
-  },
+        '{bold --email} {underline me@mail.org}'
+    ]
+  }
 ]
 
 const usage = commandLineUsage(sections)
@@ -153,7 +153,7 @@ const {
   withoutConfirmation,
   skipInstall,
   templates,
-  help,
+  help
 } = commandLineArgs(optionDefinitions)
 
 if (help) {
@@ -185,14 +185,14 @@ const packageMap = {
     ...new Set(
       components ||
         (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')])
-    ),
+    )
   ],
   modules: [...new Set(modules || [])],
-  templates,
+  templates
 }
 const usesSwiftUI = templates.includes('ios:swift-ui')
 const componentMaps = packageMap.components.map((componentName) => ({
-  componentName,
+  componentName
 }))
 const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
 const miscMap = {
@@ -209,7 +209,7 @@ const miscMap = {
   lazyPackageCaseComponentName: '{{packageCase componentName}}',
   lazyPascalCaseModuleName: '{{pascalCase moduleName}}',
   lazyParamCaseModuleName: '{{paramCase moduleName}}',
-  lazyPackageCaseModuleName: '{{packageCase moduleName}}',
+  lazyPackageCaseModuleName: '{{packageCase moduleName}}'
 }
 
 const transform = (map) => (data) => Handlebars.compile(data)(map)
@@ -234,7 +234,7 @@ const copyOptions = (map) => ({
         }
       })
     )
-  },
+  }
 })
 
 const packagePath = `${process.cwd()}/${packageMap.packageName}`
@@ -324,7 +324,7 @@ const makePackage = async () => {
     await new Promise((resolve) => {
       spawn('npm', ['run', 'init:package'], {
         stdio: 'inherit',
-        cwd: packageName,
+        cwd: packageName
       }).on('close', (code) => {
         if (code === 0) {
           done()
