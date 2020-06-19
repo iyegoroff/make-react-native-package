@@ -15,15 +15,15 @@ struct {{lazyPascalCaseComponentName}}: View {
         Text("Count \(self.props.count)")
           .padding()
 
-        Button(action: {
-          self.props.onCountChange(["count": self.props.count + 1])
-        }) {
-          Image(systemName: "plus.circle.fill")
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.red)
-            .clipShape(Circle())
-        }
+        Button(
+          action: { self.props.onCountChange(["count": self.props.count + 1]) },
+          label: {
+            Image(systemName: "plus.circle.fill")
+              .foregroundColor(.white)
+              .padding()
+              .background(Color.red)
+              .clipShape(Circle())
+          })
       }
       .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
       .background(Color.init(self.props.color))

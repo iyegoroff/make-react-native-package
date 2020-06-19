@@ -5,7 +5,7 @@ const { spawn } = require('child_process')
 const { promisify } = require('util')
 const commandLineArgs = require('command-line-args')
 const commandLineUsage = require('command-line-usage')
-const { pascalCase, paramCase, camelCase } = require('change-case')
+const { pascalCase, paramCase, camelCase, snakeCase } = require('change-case')
 const { lowerCase } = require('lower-case')
 const copy = require('recursive-copy')
 const through = require('through2')
@@ -27,9 +27,9 @@ const packageCase = (input) => lowerCase(camelCase(input))
 Handlebars.registerHelper({
   pascalCase,
   paramCase,
-  camelCase,
   packageCase,
   randomColor,
+  snakeCase
 })
 
 const sections = [
@@ -107,10 +107,11 @@ const sections = [
         description: 'Skip dependency installation.',
       },
       {
-        name: 'jetpackComposeAndSwiftUiEnabled',
-        alias: 'j',
-        type: Boolean,
-        description: 'Use Jetpack Compose and Swift UI for components.',
+        name: 'templates',
+        alias: 't',
+        multiple: true,
+        description: 'List of space-separated alternative component templates.' +
+          '\n Available values: {bold ios:swift-ui}'
       },
       {
         name: 'help',
@@ -151,7 +152,7 @@ const {
   email,
   withoutConfirmation,
   skipInstall,
-  jetpackComposeAndSwiftUiEnabled,
+  templates,
   help,
 } = commandLineArgs(optionDefinitions)
 
@@ -187,9 +188,9 @@ const packageMap = {
     ),
   ],
   modules: [...new Set(modules || [])],
-  jetpackComposeAndSwiftUiEnabled,
+  templates,
 }
-
+const usesSwiftUI = templates.includes('ios:swift-ui')
 const componentMaps = packageMap.components.map((componentName) => ({
   componentName,
 }))
@@ -200,7 +201,8 @@ const miscMap = {
   mrnpVersion,
   rnVersion,
   kotlinVersion,
-  iosVersion: jetpackComposeAndSwiftUiEnabled ? '13.0' : '9.0',
+  usesSwiftUI,
+  iosVersion: usesSwiftUI ? '13.0' : '9.0',
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
   lazyParamCaseComponentName: '{{paramCase componentName}}',
@@ -253,13 +255,13 @@ const copyTemplates = async (src, map, name) => {
   const options = copyOptions(map)
 
   await copy(
-    `${androidSourcesPath}/${src.native || src}`,
+    `${androidSourcesPath}/${src.android || src}`,
     `${androidSourcesPath}/${packageCase(name)}`,
     options
   )
 
   await copy(
-    `${iosSourcesPath}/${src.native || src}`,
+    `${iosSourcesPath}/${src.ios || src}`,
     `${iosSourcesPath}/${pascalCase(name)}`,
     options
   )
@@ -278,7 +280,7 @@ const done = () => {
 }
 
 const removeContextDependentFiles = async () => {
-  if (jetpackComposeAndSwiftUiEnabled) {
+  if (usesSwiftUI) {
     await del(`${packagePath}/**/UIButton+Highlighted.swift`)
   } else {
     await del(`${packagePath}/**/${objcPrefix}Defines.swift`)
@@ -296,9 +298,8 @@ const makePackage = async () => {
     componentMaps.map(async (map) =>
       copyTemplates(
         {
-          native: jetpackComposeAndSwiftUiEnabled
-            ? 'advanced-component-template'
-            : 'component-template',
+          ios: usesSwiftUI ? 'swift-ui-component-template' : 'component-template',
+          android: 'component-template',
           js: 'component-template'
         },
         map,
@@ -314,7 +315,7 @@ const makePackage = async () => {
   )
 
   await del(`${packagePath}/**/component-template`)
-  await del(`${packagePath}/**/advanced-component-template`)
+  await del(`${packagePath}/**/swift-ui-component-template`)
   await del(`${packagePath}/**/module-template`)
 
   await removeContextDependentFiles()

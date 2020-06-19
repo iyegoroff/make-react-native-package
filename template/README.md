@@ -28,6 +28,9 @@
 ### 0. Setup Swift and Kotlin
 
 - Open your iOS project in Xcode and create empty Swift file and bridging header to enable Swift support
+{{#if usesSwiftUI}}
+- Remove `"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\""`, line from `LIBRARY_SEARCH_PATHS` in `project.pbxproj` file.
+{{/if}}
 - Modify `android/build.gradle`:
 
   ```diff

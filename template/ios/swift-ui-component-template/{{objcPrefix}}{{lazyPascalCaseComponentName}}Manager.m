@@ -1,6 +1,6 @@
 #import <React/RCTViewManager.h>
 #import "{{objcPrefix}}Defines.h"
-#import "{{camelCase packageName}}-Swift.h"
+#import "{{snakeCase packageName}}-Swift.h"
 
 @interface RCT_EXTERN_MODULE({{objcPrefix}}{{lazyPascalCaseComponentName}}Manager, RCTViewManager)
 

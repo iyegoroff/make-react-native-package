@@ -53,6 +53,8 @@ $ npx make-react-native-package --help
   <strong>-e, --email</strong> <em>string</em>           Your npm email.
   <strong>-w, --withoutConfirmation</strong>    Skip confirmation prompt.
   <strong>-s, --skipInstall</strong>            Skip dependency installation.
+  <strong>-t, --templates</strong> <em>string[]</em>     List of space-separated alternative component templates.
+  <strong> </strong>                            Available values: <strong>ios:swift-ui</strong>
   <strong>-h, --help</strong>                   Print this usage guide.
 
 <strong>Example</strong>
@@ -91,6 +93,10 @@ If you have an account on CircleCI you can use it for publishing a package when 
 
 ## Created with MRNP
 
-- [iyegoroff/react-native-multi-segmented-control](https://github.com/iyegoroff/react-native-multi-segmented-control) 
+- [iyegoroff/react-native-multi-segmented-control](https://github.com/iyegoroff/react-native-multi-segmented-control)
 
 Packages that were bootstrapped with MRNP most likely will contain `Bootstrapped with make-react-native-package` string  marker in their `README.md` files, so they could be easily found with Github search.
+
+## Credits
+
+- `SwiftUI` component template is based on [this approach](https://github.com/Kureev/ReactNativeWithSwiftUITutorial) by @Kureev

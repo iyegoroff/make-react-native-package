@@ -1,5 +1,5 @@
-#ifndef {{camelCase packageName}}_h
-#define {{camelCase packageName}}_h
+#ifndef {{objcPrefix}}Defines_h
+#define {{objcPrefix}}Defines_h
 
 #import <React/RCTViewManager.h>
 #import <React/RCTComponentData.h>
@@ -37,4 +37,4 @@ RCT_REMAP_VIEW_PROPERTY(name, __custom__, type)                                 
 }
 
 
-#endif /* {{camelCase packageName}}_h */
+#endif /* {{objcPrefix}}Defines_h */

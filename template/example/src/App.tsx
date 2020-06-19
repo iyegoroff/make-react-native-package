@@ -1,6 +1,6 @@
 import React from 'react'
 {{#if components.length}}
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, StatusBar } from 'react-native'
 {{/if}}
 import {
 {{#each modules}}
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 })
 {{/if}}
 
-class App extends React.Component<{}> {
+class App extends React.Component<unknown> {
   {{#if modules.length}}
 
   componentDidMount() {
@@ -40,6 +40,7 @@ class App extends React.Component<{}> {
     {{#if components.length}}
     return (
       <View style={styles.container}>
+        <StatusBar hidden={true} />
       {{#each components}}
         <{{pascalCase this}}
           style={styles.component}

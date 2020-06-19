@@ -28,7 +28,7 @@ class {{lazyPascalCaseComponentName}}Manager : SimpleViewManager<{{lazyPascalCas
   }
 
   @ReactProp(name = "count")
-  fun setCount(view: Swipeable, count: Int) {
+  fun setCount(view: {{lazyPascalCaseComponentName}}, count: Int) {
     view.count = count
   }
 

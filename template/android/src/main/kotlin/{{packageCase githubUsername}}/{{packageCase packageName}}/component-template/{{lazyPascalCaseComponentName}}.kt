@@ -2,7 +2,6 @@ package {{packageCase githubUsername}}.{{packageCase packageName}}.{{lazyPackage
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
@@ -10,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
-import com.facebook.react.uimanager.UIManagerModule
 import com.facebook.react.uimanager.events.RCTEventEmitter
 
 @SuppressLint("SetTextI18n")

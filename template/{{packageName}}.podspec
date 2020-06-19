@@ -17,10 +17,10 @@ Pod::Spec.new do |s|
 
   s.dependency 'React'
 
-  {{#if jetpackComposeAndSwiftUiEnabled}}
+  {{#if usesSwiftUI}}
   s.script_phase = {
-    :name => 'Create {{camelCase packageName}}.h',
-    :script => 'touch "${PODS_ROOT}/Headers/Public/{{camelCase packageName}}/{{camelCase packageName}}.h"',
+    :name => 'Create {{snakeCase packageName}}.h',
+    :script => 'touch "${PODS_ROOT}/Headers/Public/{{snakeCase packageName}}/{{snakeCase packageName}}.h"',
     :execution_position => :before_compile
   }
   {{/if}}
