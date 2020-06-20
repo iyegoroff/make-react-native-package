@@ -19,6 +19,7 @@ const { version: mrnpVersion } = require('./package.json')
 const { dependencies } = require('./template/example/{{package}}.json')
 const rnVersion = dependencies['react-native']
 const kotlinVersion = '1.3.72'
+const availableTemplates = ['ios:default', 'ios:swift-ui', 'android:default']
 
 const del = promisify(rimraf)
 
@@ -110,8 +111,8 @@ const sections = [
         name: 'templates',
         alias: 't',
         multiple: true,
-        description: 'List of space-separated alternative component templates.' +
-          '\n Available values: {bold ios:swift-ui}'
+        description: 'List of space-separated component templates.' +
+          `\n Available values: ${availableTemplates.map(t => `{bold ${t}}`).join(' ')}`
       },
       {
         name: 'help',
@@ -152,7 +153,7 @@ const {
   email,
   withoutConfirmation,
   skipInstall,
-  templates,
+  templates = [],
   help
 } = commandLineArgs(optionDefinitions)
 
@@ -162,13 +163,25 @@ if (help) {
 }
 
 if (packageName === undefined) {
-  console.log('\nERROR: Skipped required `packageName` option!\n', usage)
+  console.log(chalk.bold.red('\nERROR: Skipped required `packageName` option!\n'))
   process.exit(1)
 }
 
 if (githubUsername === undefined) {
-  console.log('\nERROR: Skipped required `githubUsername` option!\n', usage)
+  console.log(chalk.bold.red('\nERROR: Skipped required `githubUsername` option!\n'))
   process.exit(1)
+}
+
+if (!templates.every(t => availableTemplates.includes(t))) {
+  console.log(chalk.bold.red('\nERROR: Specified unknown component template!\n'))
+  process.exit(1)
+}
+
+for (const platform of ['ios', 'android']) {
+  if (templates.reduce((acc, val) => val.startsWith(platform) ? acc + 1 : acc, 0) > 1) {
+    console.log(chalk.bold.red(`\nERROR: Only one ${platform} template can be used!\n`))
+    process.exit(1)
+  }
 }
 
 const packageMap = {
@@ -181,15 +194,20 @@ const packageMap = {
   description: description || 'Yet another react-native package',
   email: email ? ` <${email}>` : '',
   npmUsername: npmUsername || githubUsername,
+  modules: [...new Set(modules || [])],
   components: [
     ...new Set(
       components ||
         (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')])
     )
   ],
-  modules: [...new Set(modules || [])]
+  templates: [
+    ...templates,
+    ...templates.some(t => t.startsWith('ios')) ? [] : ['ios:default'],
+    ...templates.some(t => t.startsWith('android')) ? [] : ['android:default']
+  ]
 }
-const usesSwiftUI = (templates || []).includes('ios:swift-ui')
+const usesSwiftUI = templates.includes('ios:swift-ui')
 const componentMaps = packageMap.components.map((componentName) => ({
   componentName
 }))
