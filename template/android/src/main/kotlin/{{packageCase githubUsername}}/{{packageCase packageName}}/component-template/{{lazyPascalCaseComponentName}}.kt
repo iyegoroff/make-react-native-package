@@ -3,16 +3,15 @@ package {{packageCase githubUsername}}.{{packageCase packageName}}.{{lazyPackage
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.uimanager.events.RCTEventEmitter
 
 @SuppressLint("SetTextI18n")
-class {{lazyPascalCaseComponentName}}(context: Context) : ViewGroup(context) {
+class {{lazyPascalCaseComponentName}}(context: Context) : FrameLayout(context) {
   private val label = TextView(context)
   private val button = Button(context)
   var count = 0
@@ -24,13 +23,14 @@ class {{lazyPascalCaseComponentName}}(context: Context) : ViewGroup(context) {
   init {
     label.text = "Count: 0"
     label.gravity = Gravity.CENTER
-    label.layoutParams = LinearLayout.LayoutParams(
-      LayoutParams.MATCH_PARENT,
-      LayoutParams.MATCH_PARENT
-    )
+    label.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
 
     button.text = "+"
-    button.gravity = Gravity.CENTER
+    button.layoutParams = LayoutParams(
+      LayoutParams.MATCH_PARENT,
+      LayoutParams.WRAP_CONTENT,
+      Gravity.BOTTOM
+    )
     button.setOnClickListener {
       val map = Arguments.createMap()
       map.putInt("count", count + 1)
@@ -41,22 +41,12 @@ class {{lazyPascalCaseComponentName}}(context: Context) : ViewGroup(context) {
         map
       )
     }
-    button.layoutParams = LinearLayout.LayoutParams(
-      LayoutParams.MATCH_PARENT,
-      LayoutParams.MATCH_PARENT
-    )
+
     addView(label)
     addView(button)
   }
 
   fun setColor(color: Int) {
     setBackgroundColor(color)
-  }
-
-  override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-    val l = getLeft()
-    val t = getTop()
-    label.layout(left - l, top - t, right - l, bottom / 2 - t)
-    button.layout(left - l, bottom / 2 - t, right - l, bottom - t)
   }
 }
