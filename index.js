@@ -343,8 +343,8 @@ const makePackage = async () => {
           android: usesJetpackCompose
             ? 'jetpack-compose-component-template'
             : usesLitho
-            ? 'litho-component-template'
-            : 'component-template',
+              ? 'litho-component-template'
+              : 'component-template',
           js: 'component-template'
         },
         map,
