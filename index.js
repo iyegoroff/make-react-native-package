@@ -17,7 +17,7 @@ const randomColor = require('randomcolor')
 
 const { version: mrnpVersion } = require('./package.json')
 const { dependencies } = require('./template/example/{{package}}.json')
-const rnVersion = dependencies['react-native']
+const rnVersion = dependencies['react-native'];
 
 const availableTemplates = [
   ['ios:default', 'default Swift template'],

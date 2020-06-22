@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "npm run ci:lint -- --fix",
     "ci:lint": "standard './index.js'",
-    "preversion": "npm run lint",
+    "preversion": "npm run lint && git add -u && git commit -am lint",
     "postversion": "git push && git push --tags",
     "test": "npm run test:scaffold-mock && npm run test:ts && npm run test:kotlin && npm run test:swift && npm run test:cleanup",
     "test:scaffold-mock": "./index.js -p mock-package -g mock-user -w -c FakeComponent component-doodle -m falseModule dummy_module",
@@ -22,7 +22,8 @@
     "swift",
     "kotlin",
     "swift-ui",
-    "jetpack-compose"
+    "jetpack-compose",
+    "litho"
   ],
   "author": "iyegoroff <iegoroff@gmail.com>",
   "license": "MIT",
