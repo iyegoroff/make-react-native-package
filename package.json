@@ -20,7 +20,9 @@
     "react-native",
     "scaffold",
     "swift",
-    "kotlin"
+    "kotlin",
+    "swift-ui",
+    "jetpack-compose"
   ],
   "author": "iyegoroff <iegoroff@gmail.com>",
   "license": "MIT",

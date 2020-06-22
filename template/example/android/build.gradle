@@ -10,6 +10,9 @@ buildscript {
         {{#if usesJetpackCompose}}
         composeVersion = "{{composeVersion}}"
         {{/if}}
+        {{#if usesLitho}}
+        lithoVersion = "{{lithoVersion}}"
+        {{/if}}
     }
     repositories {
         google()

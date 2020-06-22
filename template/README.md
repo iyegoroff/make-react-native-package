@@ -70,6 +70,9 @@
     ext {
       ...
   +   kotlinVersion = "{{kotlinVersion}}"
+{{#if usesLitho}}
+  +   lithoVersion = "{{lithoVersion}}"
+{{/if}}
     }
   ...
 
@@ -77,6 +80,19 @@
   +   classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
       ...
   ```
+{{#if usesLitho}}
+- Modify `android/app/build.gradle`:
+
+  ```diff
+  dependencies {
+    ...
+  + configurations.all {
+  +   exclude group: 'com.facebook.yoga', module: 'yoga'
+  +   exclude group: 'com.google.code.findbugs', module: 'jsr305'
+  + }
+  }
+  ```
+{{/if}}
 {{/if}}
 
 ### 1. Install latest version from npm

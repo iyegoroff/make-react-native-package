@@ -222,6 +222,13 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+{{#if usesLitho}}
+
+    configurations.all {
+        exclude group: 'com.facebook.yoga', module: 'yoga'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
+{{/if}}
 }
 
 // Run this once to be able to run the application with BUCK

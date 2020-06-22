@@ -18,13 +18,13 @@ const randomColor = require('randomcolor')
 const { version: mrnpVersion } = require('./package.json')
 const { dependencies } = require('./template/example/{{package}}.json')
 const rnVersion = dependencies['react-native']
-const kotlinVersion = '1.3.72'
-const composeVersion = '0.1.0-dev13'
+
 const availableTemplates = [
   ['ios:default', 'default Swift template'],
   ['android:default', 'default Kotlin template'],
   ['ios:swift-ui', 'SwiftUI component template'],
-  ['android:jetpack-compose', 'Jetpack Compose component template']
+  ['android:jetpack-compose', 'Jetpack Compose component template'],
+  ['android:litho', 'Litho Kotlin component template']
 ]
 
 const del = promisify(rimraf)
@@ -217,25 +217,32 @@ const packageMap = {
 
 const usesSwiftUI = templates.includes('ios:swift-ui')
 const usesJetpackCompose = templates.includes('android:jetpack-compose')
+const usesLitho = templates.includes('android:litho')
+
 const componentMaps = packageMap.components.map((componentName) => ({
   componentName
 }))
+
 const moduleMaps = packageMap.modules.map((moduleName) => ({ moduleName }))
+
 const miscMap = {
   package: 'package',
   gitignore: '.gitignore',
   mrnpVersion,
   rnVersion,
-  kotlinVersion,
+  kotlinVersion: '1.3.72',
+  composeVersion: '0.1.0-dev13',
+  lithoVersion: '0.36.0',
+  composeKotlinCompilerVersion: '1.3.70-dev-withExperimentalGoogleExtensions-20200424',
   usesSwiftUI,
   usesJetpackCompose,
+  usesLitho,
   compileSdkVersion: usesJetpackCompose ? '29' : '28',
   targetSdkVersion: usesJetpackCompose ? '29' : '28',
   buildToolsVersion: usesJetpackCompose ? '29.0.2' : '28.0.3',
   minSdkVersion: usesJetpackCompose ? '21' : '16',
   buildToolsPluginVersion: usesJetpackCompose ? '4.2.0-alpha02' : '3.5.2',
   gradleWrapperVersion: usesJetpackCompose ? '6.5-rc-1' : '6.0.1',
-  composeVersion,
   iosVersion: usesSwiftUI ? '13.0' : '9.0',
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
@@ -333,7 +340,11 @@ const makePackage = async () => {
       copyTemplates(
         {
           ios: usesSwiftUI ? 'swift-ui-component-template' : 'component-template',
-          android: usesJetpackCompose ? 'jetpack-compose-component-template' : 'component-template',
+          android: usesJetpackCompose
+            ? 'jetpack-compose-component-template'
+            : usesLitho
+            ? 'litho-component-template'
+            : 'component-template',
           js: 'component-template'
         },
         map,
@@ -351,6 +362,7 @@ const makePackage = async () => {
   await del(`${packagePath}/**/component-template`)
   await del(`${packagePath}/**/swift-ui-component-template`)
   await del(`${packagePath}/**/jetpack-compose-component-template`)
+  await del(`${packagePath}/**/litho-component-template`)
   await del(`${packagePath}/**/module-template`)
 
   await removeContextDependentFiles()
