@@ -1,15 +1,18 @@
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
 
-apply plugin: 'kotlin-android'
+apply plugin: "kotlin-android"
 
 def _ext = rootProject.ext
 
-def _reactNativeVersion = _ext.has('reactNative') ? _ext.reactNative : '+'
-def _compileSdkVersion = _ext.has('compileSdkVersion') ? _ext.compileSdkVersion : 28
-def _buildToolsVersion = _ext.has('buildToolsVersion') ? _ext.buildToolsVersion : '28.0.3'
-def _minSdkVersion = _ext.has('minSdkVersion') ? _ext.minSdkVersion : 16
-def _targetSdkVersion = _ext.has('targetSdkVersion') ? _ext.targetSdkVersion : 28
-def _kotlinVersion = _ext.has('kotlinVersion') ? _ext.kotlinVersion : '{{kotlinVersion}}'
+def _reactNativeVersion = _ext.has("reactNative") ? _ext.reactNative : "+"
+def _compileSdkVersion = _ext.has("compileSdkVersion") ? _ext.compileSdkVersion : {{compileSdkVersion}}
+def _buildToolsVersion = _ext.has("buildToolsVersion") ? _ext.buildToolsVersion : "{{buildToolsVersion}}"
+def _minSdkVersion = _ext.has("minSdkVersion") ? _ext.minSdkVersion : {{minSdkVersion}}
+def _targetSdkVersion = _ext.has("targetSdkVersion") ? _ext.targetSdkVersion : {{targetSdkVersion}}
+def _kotlinVersion = _ext.has("kotlinVersion") ? _ext.kotlinVersion : "{{kotlinVersion}}"
+{{#if usesJetpackCompose}}
+def _composeVersion = _ext.has('composeVersion') ? _ext.composeVersion : "{{composeVersion}}"
+{{/if}}
 
 android {
     compileSdkVersion _compileSdkVersion
@@ -21,7 +24,7 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += "src/main/kotlin"
     }
 
     defaultConfig {
@@ -34,9 +37,31 @@ android {
     lintOptions {
         abortOnError false
     }
+{{#if usesJetpackCompose}}
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion "1.3.70-dev-withExperimentalGoogleExtensions-20200424"
+        kotlinCompilerExtensionVersion "$_composeVersion"
+    }
+{{/if}}
 }
 
 dependencies {
-    compileOnly "com.facebook.react:react-native:${_reactNativeVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${_kotlinVersion}"
+    compileOnly "com.facebook.react:react-native:$_reactNativeVersion"
+{{#if usesJetpackCompose}}
+    implementation "androidx.ui:ui-core:$_composeVersion"
+    implementation "androidx.ui:ui-layout:$_composeVersion"
+    implementation "androidx.ui:ui-material:$_composeVersion"
+    implementation "androidx.ui:ui-livedata:$_composeVersion"
+{{else}}
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$_kotlinVersion"
+{{/if}}
 }

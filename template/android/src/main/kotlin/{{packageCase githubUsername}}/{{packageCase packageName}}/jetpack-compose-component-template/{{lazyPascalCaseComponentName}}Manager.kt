@@ -1,6 +1,6 @@
 package {{packageCase githubUsername}}.{{packageCase packageName}}.{{lazyPackageCaseComponentName}}
 
-import android.graphics.Color
+import androidx.ui.graphics.Color
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
@@ -22,14 +22,14 @@ class {{lazyPascalCaseComponentName}}Manager : SimpleViewManager<{{lazyPascalCas
     return {{lazyPascalCaseComponentName}}(reactContext)
   }
 
-  @ReactProp(name = "color", customType = "Color", defaultInt = Color.TRANSPARENT)
+  @ReactProp(name = "color", customType = "Color")
   fun setColor(view: {{lazyPascalCaseComponentName}}, color: Int) {
-    view.setColor(color)
+    view.color.value = Color(color)
   }
 
   @ReactProp(name = "count")
   fun setCount(view: {{lazyPascalCaseComponentName}}, count: Int) {
-    view.count = count
+    view.count.value = count
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any> {

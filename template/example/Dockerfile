@@ -1,4 +1,4 @@
-FROM iyegoroff/ubuntu-node-android-git:1
+FROM iyegoroff/ubuntu-node-android-git:{{#if usesJetpackCompose}}2{{else}}1{{/if}}
 
 RUN mkdir /package
 COPY . /package

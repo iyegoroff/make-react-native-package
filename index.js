@@ -19,7 +19,13 @@ const { version: mrnpVersion } = require('./package.json')
 const { dependencies } = require('./template/example/{{package}}.json')
 const rnVersion = dependencies['react-native']
 const kotlinVersion = '1.3.72'
-const availableTemplates = ['ios:default', 'ios:swift-ui', 'android:default']
+const composeVersion = '0.1.0-dev13'
+const availableTemplates = [
+  ['ios:default', 'default Swift template'],
+  ['android:default', 'default Kotlin template'],
+  ['ios:swift-ui', 'SwiftUI component template'],
+  ['android:jetpack-compose', 'Jetpack Compose component template']
+]
 
 const del = promisify(rimraf)
 
@@ -58,6 +64,12 @@ const sections = [
   {
     header: 'Options',
     optionList: [
+      {
+        name: 'help',
+        alias: 'h',
+        type: Boolean,
+        description: 'Print this usage guide.'
+      },
       {
         name: 'appName',
         alias: 'a',
@@ -112,13 +124,8 @@ const sections = [
         alias: 't',
         multiple: true,
         description: 'List of space-separated component templates.' +
-          `\n Available values: ${availableTemplates.map(t => `{bold ${t}}`).join(' ')}`
-      },
-      {
-        name: 'help',
-        alias: 'h',
-        type: Boolean,
-        description: 'Print this usage guide.'
+          '\n Available values:\n' +
+          availableTemplates.map(([name, desc]) => `{bold ${name}} - ${desc}.`).join('\n')
       }
     ]
   },
@@ -172,7 +179,7 @@ if (githubUsername === undefined) {
   process.exit(1)
 }
 
-if (!templates.every(t => availableTemplates.includes(t))) {
+if (!templates.every(t => availableTemplates.map(([name]) => name).includes(t))) {
   console.log(chalk.bold.red('\nERROR: Specified unknown component template!\n'))
   process.exit(1)
 }
@@ -207,7 +214,9 @@ const packageMap = {
     ...templates.some(t => t.startsWith('android')) ? [] : ['android:default']
   ]
 }
+
 const usesSwiftUI = templates.includes('ios:swift-ui')
+const usesJetpackCompose = templates.includes('android:jetpack-compose')
 const componentMaps = packageMap.components.map((componentName) => ({
   componentName
 }))
@@ -219,6 +228,14 @@ const miscMap = {
   rnVersion,
   kotlinVersion,
   usesSwiftUI,
+  usesJetpackCompose,
+  compileSdkVersion: usesJetpackCompose ? '29' : '28',
+  targetSdkVersion: usesJetpackCompose ? '29' : '28',
+  buildToolsVersion: usesJetpackCompose ? '29.0.2' : '28.0.3',
+  minSdkVersion: usesJetpackCompose ? '21' : '16',
+  buildToolsPluginVersion: usesJetpackCompose ? '4.2.0-alpha02' : '3.5.2',
+  gradleWrapperVersion: usesJetpackCompose ? '6.5-rc-1' : '6.0.1',
+  composeVersion,
   iosVersion: usesSwiftUI ? '13.0' : '9.0',
   currentYear: `${new Date().getFullYear()}`,
   lazyPascalCaseComponentName: '{{pascalCase componentName}}',
@@ -316,7 +333,7 @@ const makePackage = async () => {
       copyTemplates(
         {
           ios: usesSwiftUI ? 'swift-ui-component-template' : 'component-template',
-          android: 'component-template',
+          android: usesJetpackCompose ? 'jetpack-compose-component-template' : 'component-template',
           js: 'component-template'
         },
         map,
@@ -333,6 +350,7 @@ const makePackage = async () => {
 
   await del(`${packagePath}/**/component-template`)
   await del(`${packagePath}/**/swift-ui-component-template`)
+  await del(`${packagePath}/**/jetpack-compose-component-template`)
   await del(`${packagePath}/**/module-template`)
 
   await removeContextDependentFiles()

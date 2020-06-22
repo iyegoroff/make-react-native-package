@@ -12,16 +12,12 @@ import com.facebook.react.uimanager.events.RCTEventEmitter
 
 @SuppressLint("SetTextI18n")
 class {{lazyPascalCaseComponentName}}(context: Context) : FrameLayout(context) {
+  private val defaultCount = 0
   private val label = TextView(context)
   private val button = Button(context)
-  var count = 0
-    set(value) {
-      field = value
-      label.text = "Count: $value"
-    }
 
   init {
-    label.text = "Count: 0"
+    label.text = "Count: $defaultCount"
     label.gravity = Gravity.CENTER
     label.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
 
@@ -31,22 +27,30 @@ class {{lazyPascalCaseComponentName}}(context: Context) : FrameLayout(context) {
       LayoutParams.WRAP_CONTENT,
       Gravity.BOTTOM
     )
-    button.setOnClickListener {
-      val map = Arguments.createMap()
-      map.putInt("count", count + 1)
-
-      (getContext() as ReactContext).getJSModule(RCTEventEmitter::class.java).receiveEvent(
-        id,
-        "onCountChange",
-        map
-      )
-    }
+    button.setOnClickListener { increment() }
 
     addView(label)
     addView(button)
   }
 
+  var count = defaultCount
+  set(value) {
+    field = value
+    label.text = "Count: $value"
+  }
+
   fun setColor(color: Int) {
     setBackgroundColor(color)
+  }
+
+  private fun increment() {
+    val map = Arguments.createMap()
+    map.putInt("count", count + 1)
+
+    (context as ReactContext).getJSModule(RCTEventEmitter::class.java).receiveEvent(
+      id,
+      "onCountChange",
+      map
+    )
   }
 }
