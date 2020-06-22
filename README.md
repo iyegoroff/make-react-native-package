@@ -13,6 +13,7 @@ CLI tool for bootstrapping react-native packages with Kotlin & Swift & Typescrip
 - CLI tool:
   - single command to scaffold a monorepo with package itself and ready-to-run example app
   - can create any amount of dummy native components and modules inside same package
+  - has multiple component templates
   - versioning doesn't follow 'semver', major and minor numbers match the ones from specific version of <code>react&#x2011;native</code> whose project template is used by MRNP
 - Bootstrapped package:
   - supports `iOS` & `Android` & react-native "<strong>&gt;= 0.60.0</strong>"
@@ -39,29 +40,33 @@ $ npx make-react-native-package --help
 
 <strong>Required options</strong>
 
-  <strong>-p, --packageName</strong> <em>string</em>      The name of project folder, github repo and npm package.
-  <strong>-g, --githubUsername</strong> <em>string</em>   Your github username.
+  <strong>-p, --packageName</strong> <em>string</em>      The name of project folder, github repo and npm package
+  <strong>-g, --githubUsername</strong> <em>string</em>   Your github username
 
 <strong>Options</strong>
 
-  <strong>-a, --appName</strong> <em>string</em>         Example app name.
-  <strong>-o, --objcPrefix</strong> <em>string</em>      Objective-C file prefix.
-  <strong>-c, --components</strong> <em>string[]</em>    List of space-separated native component names.
-  <strong>-m, --modules</strong> <em>string[]</em>       List of space-separated native module names.
-  <strong>-d, --description</strong> <em>string</em>     Package description.
-  <strong>-n, --npmUsername</strong> <em>string</em>     Your npm username.
-  <strong>-e, --email</strong> <em>string</em>           Your npm email.
-  <strong>-w, --withoutConfirmation</strong>    Skip confirmation prompt.
-  <strong>-s, --skipInstall</strong>            Skip dependency installation.
-  <strong>-t, --templates</strong> <em>string[]</em>     List of space-separated alternative component templates.
-  <strong> </strong>                            Available values: <strong>ios:swift-ui</strong>
-  <strong>-h, --help</strong>                   Print this usage guide.
+  <strong>-h, --help</strong>                   Print this usage guide
+  <strong>-a, --appName</strong> <em>string</em>         Example app name
+  <strong>-o, --objcPrefix</strong> <em>string</em>      Objective-C file prefix
+  <strong>-c, --components</strong> <em>string[]</em>    List of space-separated native component names
+  <strong>-m, --modules</strong> <em>string[]</em>       List of space-separated native module names
+  <strong>-d, --description</strong> <em>string</em>     Package description
+  <strong>-n, --npmUsername</strong> <em>string</em>     Your npm username
+  <strong>-e, --email</strong> <em>string</em>           Your npm email
+  <strong>-w, --withoutConfirmation</strong>    Skip confirmation prompt
+  <strong>-s, --skipInstall</strong>            Skip dependency installation
+  <strong>-t, --templates</strong> <em>string[]</em>     List of space-separated component templates:
+                               <strong>ios:default</strong> - default Swift template
+                               <strong>android:default</strong> - default Kotlin template
+                               <strong>ios:swift-ui</strong> - SwiftUI component template
+                               <strong>android:jetpack-compose</strong> - Jetpack Compose component template
 
 <strong>Example</strong>
 
   $ make-react-native-package <strong>--packageName</strong> <em>react-native-cool-component</em>
     <strong>--githubUsername</strong> <em>octocat</em> <strong>--appName</strong> <em>CoolExample</em> <strong>--objcPrefix</strong> <em>RNCC</em>
     <strong>--description</strong> <em>"Cool description"</em> <strong>--npmUsername</strong> <em>wombat</em> <strong>--email</strong> <em>me@mail.org</em>
+    <strong>--templates</strong> <em>ios:swift-ui android:jetpack-compose</em>
 </pre>
 
 ## Workflow

@@ -52,12 +52,12 @@ const sections = [
       {
         name: 'packageName',
         alias: 'p',
-        description: 'The name of project folder, github repo and npm package.'
+        description: 'The name of project folder, github repo and npm package'
       },
       {
         name: 'githubUsername',
         alias: 'g',
-        description: 'Your github username.'
+        description: 'Your github username'
       }
     ]
   },
@@ -68,64 +68,63 @@ const sections = [
         name: 'help',
         alias: 'h',
         type: Boolean,
-        description: 'Print this usage guide.'
+        description: 'Print this usage guide'
       },
       {
         name: 'appName',
         alias: 'a',
-        description: 'Example app name.'
+        description: 'Example app name'
       },
       {
         name: 'objcPrefix',
         alias: 'o',
-        description: 'Objective-C file prefix.'
+        description: 'Objective-C file prefix'
       },
       {
         name: 'components',
         alias: 'c',
         multiple: true,
-        description: 'List of space-separated native component names.'
+        description: 'List of space-separated native component names'
       },
       {
         name: 'modules',
         alias: 'm',
         multiple: true,
-        description: 'List of space-separated native module names.'
+        description: 'List of space-separated native module names'
       },
       {
         name: 'description',
         alias: 'd',
-        description: 'Package description.'
+        description: 'Package description'
       },
       {
         name: 'npmUsername',
         alias: 'n',
-        description: 'Your npm username.'
+        description: 'Your npm username'
       },
       {
         name: 'email',
         alias: 'e',
-        description: 'Your npm email.'
+        description: 'Your npm email'
       },
       {
         name: 'withoutConfirmation',
         alias: 'w',
         type: Boolean,
-        description: 'Skip confirmation prompt.'
+        description: 'Skip confirmation prompt'
       },
       {
         name: 'skipInstall',
         alias: 's',
         type: Boolean,
-        description: 'Skip dependency installation.'
+        description: 'Skip dependency installation'
       },
       {
         name: 'templates',
         alias: 't',
         multiple: true,
-        description: 'List of space-separated component templates.' +
-          '\n Available values:\n' +
-          availableTemplates.map(([name, desc]) => `{bold ${name}} - ${desc}.`).join('\n')
+        description: 'List of space-separated component templates:\n' +
+          availableTemplates.map(([name, desc]) => `{bold ${name}} - ${desc}`).join('\n')
       }
     ]
   },
@@ -139,7 +138,8 @@ const sections = [
         '{bold --objcPrefix} {underline RNCC}',
       '{hidden   }{bold --description} {underline "Cool description"} ' +
         '{bold --npmUsername} {underline wombat} ' +
-        '{bold --email} {underline me@mail.org}'
+        '{bold --email} {underline me@mail.org}',
+      '{hidden   }{bold --templates} {underline ios:swift-ui android:jetpack-compose}'
     ]
   }
 ]
