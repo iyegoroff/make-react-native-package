@@ -9,8 +9,6 @@ class {{lazyPascalCaseModuleName}}: NSObject {
                                   preferredStyle: UIAlertController.Style.alert)
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-    DispatchQueue.main.async {
-      RCTPresentedViewController()?.present(alert, animated: true)
-    }
+    RCTPresentedViewController()?.present(alert, animated: true)
   }
 }

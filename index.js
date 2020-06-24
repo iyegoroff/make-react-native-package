@@ -335,6 +335,7 @@ const removeContextDependentFiles = async () => {
   } else {
     await del(`${packagePath}/ios/UIImage+Color.?`)
     await del(`${packagePath}/example/ios/${packageMap.appName}Tests/*Tests.m`)
+    await del(`${packagePath}/ios/*/*.h`)
   }
 }
 

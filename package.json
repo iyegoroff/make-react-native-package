@@ -12,7 +12,7 @@
     "test:scaffold:default": "./index.js -p mock-package -g mock-user -w -c FakeComponent component-doodle -m falseModule dummy_module",
     "test:scaffold:swift-ui": "./index.js -p mock-package -g mock-user -w -t ios:swift-ui",
     "test:scaffold:jetpack-compose": "./index.js -p mock-package -g mock-user -w -t android:jetpack-compose",
-    "test:scaffold:component-kit": "./index.js -p mock-package -g mock-user -w -t ios:component-kit",
+    "test:scaffold:component-kit": "./index.js -p mock-package -g mock-user -w -c comp -m mod -t ios:component-kit",
     "test:scaffold:litho": "./index.js -p mock-package -g mock-user -w -t android:litho",
     "test:cleanup": "rm -rf mock-package",
     "test:ts": "cd mock-package && npm run ci:build && npm run ci:lint:ts",
