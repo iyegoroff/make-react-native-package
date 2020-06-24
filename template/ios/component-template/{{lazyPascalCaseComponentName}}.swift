@@ -17,6 +17,9 @@ class {{lazyPascalCaseComponentName}}: UIView {
       action: #selector({{lazyPascalCaseComponentName}}.updateCount),
       for: UIControl.Event.touchUpInside)
 
+    button.setBackgroundImage(UIImage.new(with: UIColor.lightGray), for: UIControl.State.normal)
+    button.setBackgroundImage(UIImage.new(with: UIColor.clear), for: UIControl.State.highlighted)
+
     addSubview(label)
     addSubview(button)
   }

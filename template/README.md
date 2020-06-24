@@ -47,6 +47,7 @@
   +   targetSdkVersion = {{targetSdkVersion}}
   +   kotlinVersion = "{{kotlinVersion}}"
   +   composeVersion = "{{composeVersion}}"
+  +   composeKotlinCompilerVersion = "{{composeKotlinCompilerVersion}}"
     }
   ...
 

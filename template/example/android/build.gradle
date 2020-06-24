@@ -9,6 +9,7 @@ buildscript {
         kotlinVersion = "{{kotlinVersion}}"
         {{#if usesJetpackCompose}}
         composeVersion = "{{composeVersion}}"
+        composeKotlinCompilerVersion = "{{composeKotlinCompilerVersion}}"
         {{/if}}
         {{#if usesLitho}}
         lithoVersion = "{{lithoVersion}}"

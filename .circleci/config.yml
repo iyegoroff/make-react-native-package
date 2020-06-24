@@ -11,7 +11,7 @@ jobs:
       - run: npm i
       - run: npm run ci:lint
 
-  test-mock-ts:
+  test-ts:
     docker:
       - image: circleci/node:12.16.1
     working_directory: ~/repo
@@ -20,11 +20,11 @@ jobs:
       - checkout
 
       - run: npm i
-      - run: npm run test:scaffold-mock
+      - run: npm run test:scaffold:default
       - run: npm run test:ts
       - run: npm run test:cleanup
 
-  test-mock-kotlin:
+  test-kotlin-default:
     docker:
       - image: circleci/android:api-28-node
     environment:
@@ -35,21 +35,77 @@ jobs:
       - checkout
 
       - run: npm i
-      - run: npm run test:scaffold-mock
+      - run: npm run test:scaffold:default
       - run: npm run test:kotlin
       - run: npm run test:cleanup
 
-  test-mock-swift:
+  test-kotlin-jetpack-compose:
+    docker:
+      - image: circleci/android:api-29-node
+    environment:
+      JVM_OPTS: -Xmx3200m
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold:jetpack-compose
+      - run: npm run test:kotlin
+      - run: npm run test:cleanup
+
+  test-kotlin-litho:
+    docker:
+      - image: circleci/android:api-28-node
+    environment:
+      JVM_OPTS: -Xmx3200m
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold:litho
+      - run: npm run test:kotlin
+      - run: npm run test:cleanup
+
+  test-swift-default:
     macos:
-      xcode: "10.3.0"
+      xcode: "11.5.0"
     working_directory: /Users/distiller/project
 
     steps:
       - checkout
 
       - run: npm i
-      - run: npm run test:scaffold-mock
+      - run: npm run test:scaffold:default
       - run: npm run test:swift
+      - run: npm run test:cleanup
+
+  test-swift-swift-ui:
+    macos:
+      xcode: "11.5.0"
+    working_directory: /Users/distiller/project
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold:swift-ui
+      - run: npm run test:swift
+      - run: npm run test:cleanup
+
+  test-objc-component-kit:
+    macos:
+      xcode: "11.5.0"
+    working_directory: /Users/distiller/project
+
+    steps:
+      - checkout
+
+      - run: npm i
+      - run: npm run test:scaffold:component-kit
+      - run: npm run test:objc
       - run: npm run test:cleanup
 
   publish:
@@ -72,17 +128,37 @@ workflows:
             tags:
               only: /.*/
 
-      - test-mock-ts:
+      - test-ts:
           filters:
             tags:
               only: /.*/
 
-      - test-mock-kotlin:
+      - test-kotlin-default:
           filters:
             tags:
               only: /.*/
 
-      - test-mock-swift:
+      - test-swift-default:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-kotlin-jetpack-compose:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-swift-swift-ui:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-kotlin-litho:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-objc-component-kit:
           filters:
             tags:
               only: /.*/
@@ -90,9 +166,13 @@ workflows:
       - publish:
           requires:
             - lint
-            - test-mock-ts
-            - test-mock-kotlin
-            - test-mock-swift
+            - test-ts
+            - test-kotlin-default
+            - test-swift-default
+            - test-kotlin-jetpack-compose
+            - test-swift-swift-ui
+            - test-kotlin-litho
+            - test-objc-component-kit
           filters:
             tags:
               only: /^v.*/

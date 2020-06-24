@@ -24,6 +24,7 @@ const availableTemplates = [
   ['android:default', 'default Kotlin template'],
   ['ios:swift-ui', 'SwiftUI component template'],
   ['android:jetpack-compose', 'Jetpack Compose component template'],
+  ['ios:component-kit', 'ComponentKit Objective-C++ component template'],
   ['android:litho', 'Litho Kotlin component template']
 ]
 
@@ -217,6 +218,7 @@ const packageMap = {
 
 const usesSwiftUI = templates.includes('ios:swift-ui')
 const usesJetpackCompose = templates.includes('android:jetpack-compose')
+const usesComponentKit = templates.includes('ios:component-kit')
 const usesLitho = templates.includes('android:litho')
 
 const componentMaps = packageMap.components.map((componentName) => ({
@@ -236,6 +238,7 @@ const miscMap = {
   composeKotlinCompilerVersion: '1.3.70-dev-withExperimentalGoogleExtensions-20200424',
   usesSwiftUI,
   usesJetpackCompose,
+  usesComponentKit,
   usesLitho,
   compileSdkVersion: usesJetpackCompose ? '29' : '28',
   targetSdkVersion: usesJetpackCompose ? '29' : '28',
@@ -321,10 +324,17 @@ const done = () => {
 }
 
 const removeContextDependentFiles = async () => {
-  if (usesSwiftUI) {
-    await del(`${packagePath}/**/UIButton+Highlighted.swift`)
+  if (!usesSwiftUI) {
+    await del(`${packagePath}/ios/${packageMap.objcPrefix}Defines.h`)
+  }
+  if (usesComponentKit) {
+    await del(`${packagePath}/ios/*Umbrella.h`)
+    await del(`${packagePath}/ios/.swiftlint.yml`)
+    await del(`${packagePath}/**/*.swift`)
+    await del(`${packagePath}/**/*-Bridging-Header.h`)
   } else {
-    await del(`${packagePath}/**/${objcPrefix}Defines.swift`)
+    await del(`${packagePath}/ios/UIImage+Color.?`)
+    await del(`${packagePath}/example/ios/${packageMap.appName}Tests/*Tests.m`)
   }
 }
 
@@ -339,7 +349,11 @@ const makePackage = async () => {
     componentMaps.map(async (map) =>
       copyTemplates(
         {
-          ios: usesSwiftUI ? 'swift-ui-component-template' : 'component-template',
+          ios: usesSwiftUI
+            ? 'swift-ui-component-template'
+            : usesComponentKit
+              ? 'component-kit-component-template'
+              : 'component-template',
           android: usesJetpackCompose
             ? 'jetpack-compose-component-template'
             : usesLitho
@@ -359,11 +373,7 @@ const makePackage = async () => {
     )
   )
 
-  await del(`${packagePath}/**/component-template`)
-  await del(`${packagePath}/**/swift-ui-component-template`)
-  await del(`${packagePath}/**/jetpack-compose-component-template`)
-  await del(`${packagePath}/**/litho-component-template`)
-  await del(`${packagePath}/**/module-template`)
+  await del(`${packagePath}/**/*-template`)
 
   await removeContextDependentFiles()
 

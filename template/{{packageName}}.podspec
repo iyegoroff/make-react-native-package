@@ -13,9 +13,14 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/{{githubUsername}}/{{packageName}}.git', :tag => 'v#{s.version}' }
   s.source_files     = 'ios/**/*.{h,m,mm,swift}'
   s.requires_arc     = true
+  {{#unless usesComponentKit}}
   s.swift_version    = '5.0'
+  {{/unless}}
 
   s.dependency 'React'
+  {{#if usesComponentKit}}
+  s.dependency 'ComponentKit'
+  {{/if}}
 
   {{#if usesSwiftUI}}
   s.script_phase = {

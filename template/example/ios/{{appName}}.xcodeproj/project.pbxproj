@@ -12,8 +12,12 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3A53AD83D59C97BD111E5122 /* libPods-{{appName}}-{{appName}}Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BCF9AD9EBBA7155E1D4E4E8 /* libPods-{{appName}}-{{appName}}Tests.a */; };
+{{#unless usesComponentKit}}
 		746C4BEF2459F9B2001E6020 /* empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746C4BEE2459F9B2001E6020 /* empty.swift */; };
 		746C4BF22459F9CA001E6020 /* {{appName}}Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746C4BF12459F9CA001E6020 /* {{appName}}Tests.swift */; };
+{{else}}
+    74ECE77624A2D4D5004FD0D0 /* {{appName}}Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ECE77524A2D4D5004FD0D0 /* {{appName}}Tests.m */; };
+{{/unless}}
 		D9640D77AFFAF29CD4846835 /* libPods-{{appName}}.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C14A143EE359C564D85A054 /* libPods-{{appName}}.a */; };
 /* End PBXBuildFile section */
 
@@ -40,10 +44,14 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = {{appName}}/main.m; sourceTree = "<group>"; };
 		1BCF9AD9EBBA7155E1D4E4E8 /* libPods-{{appName}}-{{appName}}Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-{{appName}}-{{appName}}Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F7B058A711A43D60959BE98 /* Pods-{{appName}}.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-{{appName}}.debug.xcconfig"; path = "Target Support Files/Pods-{{appName}}/Pods-{{appName}}.debug.xcconfig"; sourceTree = "<group>"; };
+{{#unless usesComponentKit}}
 		746C4BED2459F9B1001E6020 /* {{appName}}-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{appName}}-Bridging-Header.h"; sourceTree = "<group>"; };
 		746C4BEE2459F9B2001E6020 /* empty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = empty.swift; sourceTree = "<group>"; };
 		746C4BF02459F9C9001E6020 /* {{appName}}Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{appName}}Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		746C4BF12459F9CA001E6020 /* {{appName}}Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = {{appName}}Tests.swift; sourceTree = "<group>"; };
+{{else}}
+    74ECE77524A2D4D5004FD0D0 /* {{appName}}Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = {{appName}}Tests.m; sourceTree = "<group>"; };
+{{/unless}}
 		8C14A143EE359C564D85A054 /* libPods-{{appName}}.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-{{appName}}.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1776C9724F7C106BB2DD5F5 /* Pods-{{appName}}-{{appName}}Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-{{appName}}-{{appName}}Tests.debug.xcconfig"; path = "Target Support Files/Pods-{{appName}}-{{appName}}Tests/Pods-{{appName}}-{{appName}}Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		ECBC5F5387C6F7C192F74149 /* Pods-{{appName}}.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-{{appName}}.release.xcconfig"; path = "Target Support Files/Pods-{{appName}}/Pods-{{appName}}.release.xcconfig"; sourceTree = "<group>"; };
@@ -74,9 +82,13 @@
 		00E356EF1AD99517003FC87E /* {{appName}}Tests */ = {
 			isa = PBXGroup;
 			children = (
+{{#unless usesComponentKit}}
 				746C4BF12459F9CA001E6020 /* {{appName}}Tests.swift */,
-				00E356F01AD99517003FC87E /* Supporting Files */,
 				746C4BF02459F9C9001E6020 /* {{appName}}Tests-Bridging-Header.h */,
+{{else}}
+        74ECE77524A2D4D5004FD0D0 /* {{appName}}Tests.m */,
+{{/unless}}
+        00E356F01AD99517003FC87E /* Supporting Files */,
 			);
 			path = {{appName}}Tests;
 			sourceTree = "<group>";
@@ -93,14 +105,16 @@
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
-				746C4BEE2459F9B2001E6020 /* empty.swift */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+{{#unless usesComponentKit}}
+        746C4BEE2459F9B2001E6020 /* empty.swift */,
 				746C4BED2459F9B1001E6020 /* {{appName}}-Bridging-Header.h */,
+{{/unless}}
 			);
 			name = {{appName}};
 			sourceTree = "<group>";
@@ -184,7 +198,9 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "{{appName}}" */;
 			buildPhases = (
 				DEF0A39D21D98F692AE4C03B /* [CP] Check Pods Manifest.lock */,
+{{#unless usesComponentKit}}
         7497CD0B2463708500312218 /* SwiftLint */,
+{{/unless}}
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -271,6 +287,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -z \"${RCT_NO_BUNDLE+xxx}\" ] ; then\n  export NODE_BINARY=node\n  ../node_modules/react-native/scripts/react-native-xcode.sh\nfi\n";
 		};
+{{#unless usesComponentKit}}
     7497CD0B2463708500312218 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -289,6 +306,7 @@
 			shellPath = /bin/sh;
 			shellScript = "cd ../../ios && \"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+{{/unless}}
 		7ECAE1A36BD4A78D5C1C1416 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -359,7 +377,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+{{#unless usesComponentKit}}
 				746C4BF22459F9CA001E6020 /* {{appName}}Tests.swift in Sources */,
+{{else}}
+        74ECE77624A2D4D5004FD0D0 /* {{appName}}Tests.m in Sources */,
+{{/unless}}
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +391,9 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+{{#unless usesComponentKit}}
 				746C4BEF2459F9B2001E6020 /* empty.swift in Sources */,
+{{/unless}}
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,7 +424,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B1776C9724F7C106BB2DD5F5 /* Pods-{{appName}}-{{appName}}Tests.debug.xcconfig */;
 			buildSettings = {
+{{#unless usesComponentKit}}
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+{{/unless}}
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -417,7 +443,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.{{appName}}.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+{{#unless usesComponentKit}}
 				SWIFT_OBJC_BRIDGING_HEADER = "{{appName}}Tests/{{appName}}Tests-Bridging-Header.h";
+{{/unless}}
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/{{appName}}.app/{{appName}}";
@@ -428,7 +456,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ECD6E46A56A353F20CC64700 /* Pods-{{appName}}-{{appName}}Tests.release.xcconfig */;
 			buildSettings = {
+{{#unless usesComponentKit}}
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+{{/unless}}
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -442,7 +472,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.{{appName}}.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+{{#unless usesComponentKit}}
 				SWIFT_OBJC_BRIDGING_HEADER = "{{appName}}Tests/{{appName}}Tests-Bridging-Header.h";
+{{/unless}}
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/{{appName}}.app/{{appName}}";
 			};
@@ -469,7 +501,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.{{appName}}.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = {{appName}};
+{{#unless usesComponentKit}}
 				SWIFT_OBJC_BRIDGING_HEADER = "{{appName}}-Bridging-Header.h";
+{{/unless}}
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
         TARGETED_DEVICE_FAMILY = "1,2";
@@ -493,7 +527,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.{{appName}}.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = {{appName}};
+{{#unless usesComponentKit}}
 				SWIFT_OBJC_BRIDGING_HEADER = "{{appName}}-Bridging-Header.h";
+{{/unless}}
 				SWIFT_VERSION = 5.0;
         TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -551,9 +587,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-          {{#unless usesSwiftUI}}
+{{#unless usesSwiftUI}}
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
-          {{/unless}}
+{{/unless}}
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -606,9 +642,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					{{#unless usesSwiftUI}}
+{{#unless usesSwiftUI}}
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
-          {{/unless}}
+{{/unless}}
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;

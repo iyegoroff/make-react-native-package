@@ -60,6 +60,7 @@ $ npx make-react-native-package --help
                                <strong>android:default</strong> - default Kotlin template
                                <strong>ios:swift-ui</strong> - SwiftUI component template
                                <strong>android:jetpack-compose</strong> - Jetpack Compose component template
+                               <strong>ios:component-kit</strong> - ComponentKit Objective-C++ component template
                                <strong>android:litho</strong> - Litho Kotlin component template
 
 <strong>Example</strong>

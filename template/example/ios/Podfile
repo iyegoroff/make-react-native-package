@@ -78,8 +78,10 @@ target '{{appName}}' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod '{{packageName}}', :path => '../../'
+{{#unless usesComponentKit}}
 
   pod 'SwiftLint'
+{{/unless}}
 
   target '{{appName}}Tests' do
     inherit! :complete
