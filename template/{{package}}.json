@@ -23,7 +23,7 @@
     "ci:lint:kotlin": "cd example/android && ./gradlew ktlintMainSourceSetCheck",
     "ci:lint:swift": "cd ios && ../example/ios/Pods/SwiftLint/swiftlint",
     "ci:compile:android": "cd example/android && ./gradlew compileDebugSources",
-    "ci:compile:ios": "cd example/ios && export RCT_NO_LAUNCH_PACKAGER=\"true\" && export RCT_NO_BUNDLE=\"true\" && xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=\"NO\" CODE_SIGN_ENTITLEMENTS=\"\" CODE_SIGNING_ALLOWED=\"NO\" -destination \"platform=iOS Simulator,name=iPhone 11,OS=13.5\" -workspace {{appName}}.xcworkspace -configuration Release -scheme {{appName}} test",
+    "ci:compile:ios": "cd example/ios && export RCT_NO_LAUNCH_PACKAGER=\"true\" && export RCT_NO_BUNDLE=\"true\" && xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=\"NO\" CODE_SIGN_ENTITLEMENTS=\"\" CODE_SIGNING_ALLOWED=\"NO\" -destination \"platform=iOS Simulator,name=iPhone 11,OS=13.5\" -workspace {{appName}}.xcworkspace -scheme {{appName}} build-for-testing",
     "preversion": "npm run lint && npm run build",
     "postversion": "git push && git push --tags"
   },
