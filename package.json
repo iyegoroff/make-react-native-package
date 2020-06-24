@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "npm run ci:lint -- --fix",
     "ci:lint": "standard './index.js'",
-    "p": "git add -u && git commit -am lint && echo 1 || echo 2",
+    "preversion": "npm run lint && git add -u && git commit -am lint || :",
     "postversion": "git push && git push --tags",
     "test:scaffold:default": "./index.js -p mock-package -g mock-user -w -c FakeComponent component-doodle -m falseModule dummy_module",
     "test:scaffold:swift-ui": "./index.js -p mock-package -g mock-user -w -t ios:swift-ui",
