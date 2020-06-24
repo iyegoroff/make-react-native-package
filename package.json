@@ -1,6 +1,6 @@
 {
   "name": "make-react-native-package",
-  "version": "0.62.15",
+  "version": "0.62.16",
   "description": "CLI tool for bootstrapping react-native packages with Kotlin & Swift & Typescript",
   "main": "index.js",
   "bin": "index.js",
