@@ -71,7 +71,7 @@ jobs:
 
   test-swift-default:
     macos:
-      xcode: "11.5.0"
+      xcode: "11.0.0"
     working_directory: /Users/distiller/project
 
     steps:
@@ -84,7 +84,7 @@ jobs:
 
   test-swift-swift-ui:
     macos:
-      xcode: "11.5.0"
+      xcode: "11.0.0"
     working_directory: /Users/distiller/project
 
     steps:
@@ -97,7 +97,7 @@ jobs:
 
   test-objc-component-kit:
     macos:
-      xcode: "11.5.0"
+      xcode: "11.0.0"
     working_directory: /Users/distiller/project
 
     steps:
